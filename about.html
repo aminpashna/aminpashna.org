@@ -149,17 +149,26 @@
     // Mobile nav
     const burger = document.getElementById('burger');
     const drawer = document.getElementById('drawer');
-    burger.addEventListener('click', () => {
-      burger.classList.toggle('open');
-      drawer.classList.toggle('open');
-      document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
-    });
-    // Close drawer on link click
-    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      burger.classList.remove('open');
-      drawer.classList.remove('open');
-      document.body.style.overflow = '';
-    }));
+    if (burger && drawer) {
+      burger.addEventListener('click', () => {
+        const isOpen = drawer.classList.toggle('open');
+        burger.classList.toggle('open', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      });
+      drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        burger.classList.remove('open');
+        document.body.style.overflow = '';
+      }));
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (drawer.classList.contains('open') && !drawer.contains(e.target) && !burger.contains(e.target)) {
+          drawer.classList.remove('open');
+          burger.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    }
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
     const io = new IntersectionObserver(entries => entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*100); }), {threshold:.1});
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
