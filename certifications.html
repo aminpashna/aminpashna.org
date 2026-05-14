@@ -153,6 +153,17 @@
       .issuers-row { flex-direction: column; }
       .certs-body { padding: 3rem 2rem 5rem; }
     }
+
+    @media (max-width: 768px) {
+      .certs-stats { padding: 1.5rem; }
+      .certs-stats-inner { flex-wrap: wrap; }
+      .cert-stat { flex: 1 1 45%; border-right: none; border-bottom: 1px solid #222; padding: .8rem; }
+      .cert-stat:nth-child(odd) { border-right: 1px solid #222; }
+      .certs-issuers { padding: 2.5rem 1.5rem 0; }
+      .issuers-row { flex-direction: column; gap: 1rem; }
+      .certs-body { padding: 2.5rem 1.5rem 4rem; }
+      .certs-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -167,6 +178,17 @@
       <li><a href="contact.html" class="nav-cta">Contact</a></li>
     </ul>
   </nav>
+  <button class="nav-burger" id="burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <div class="nav-drawer" id="drawer">
+    <ul>
+      <li><a href="about.html">About</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="certifications.html" class="active">Certs</a></li>
+    </ul>
+    <a href="contact.html" class="drawer-cta">Contact</a>
+  </div>
 
   <div class="page">
 
@@ -407,6 +429,21 @@
 
   <script>
     const nav = document.getElementById('nav');
+
+    // Mobile nav
+    const burger = document.getElementById('burger');
+    const drawer = document.getElementById('drawer');
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      drawer.classList.toggle('open');
+      document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+    });
+    // Close drawer on link click
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      drawer.classList.remove('open');
+      document.body.style.overflow = '';
+    }));
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
     const io = new IntersectionObserver(entries => entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*80); }), {threshold:.1});
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
