@@ -203,6 +203,39 @@
     .skill-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
     .tag { font-family: var(--font-mono); font-size: .7rem; padding: .3rem .7rem; background: var(--paper); color: var(--ink-soft); border: 1px solid var(--rule); letter-spacing: .04em; }
 
+    #projects { max-width: 1100px; margin: 0 auto; padding: 7rem 4rem; }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .project-card {
+      padding: 2.2rem; border: 1px solid var(--rule);
+      background: #fff; text-decoration: none; color: inherit;
+      transition: border-color .25s, transform .25s;
+      position: relative; overflow: hidden; display: block;
+    }
+    .project-card::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0);
+      transform-origin: left; transition: transform .3s;
+    }
+    .project-card:hover { border-color: var(--accent-light); transform: translateY(-4px); }
+    .project-card:hover::after { transform: scaleX(1); }
+    .project-tag {
+      font-family: var(--font-mono); font-size: .65rem;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: .8rem;
+    }
+    .project-name {
+      font-family: var(--font-display); font-size: 1.6rem;
+      font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: .8rem;
+    }
+    .project-desc { font-size: 1rem; color: var(--ink-soft); line-height: 1.7; margin-bottom: 1.4rem; }
+    .project-features { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.4rem; }
+    .project-link {
+      font-family: var(--font-mono); font-size: .7rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); display: inline-flex; align-items: center; gap: .4rem;
+    }
+
     #certifications { max-width: 1100px; margin: 0 auto; padding: 7rem 4rem; }
     .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
     .cert-card { padding: 1.6rem 1.8rem; border: 1px solid var(--rule); background: #fff; transition: border-color .25s, transform .2s; }
@@ -260,6 +293,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
       <li><a href="#certifications">Certs</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -426,6 +460,28 @@
           <span class="tag">SQL Server on Linux</span>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="reveal">
+      <p class="section-label">Side Projects</p>
+      <h2 class="section-title">Built by <em>me</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="projects-grid">
+      <a href="/sql-tools" class="project-card reveal">
+        <div class="project-tag">AI-Powered · Open Tool</div>
+        <div class="project-name">SQL Toolkit</div>
+        <div class="project-desc">Three tools in one: explain any SQL query in plain English, get optimization suggestions for slow queries, and convert between SQL dialects — all powered by Claude AI.</div>
+        <div class="project-features">
+          <span class="tag">Query Explainer</span>
+          <span class="tag">Optimizer</span>
+          <span class="tag">Dialect Converter</span>
+          <span class="tag">Claude AI</span>
+        </div>
+        <span class="project-link">Launch Tool →</span>
+      </a>
     </div>
   </section>
 
