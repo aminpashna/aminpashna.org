@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certifications — Amin Pashna</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-hero { padding: 5rem 4rem 4rem; background: var(--paper-warm); border-bottom: 1px solid var(--rule); }
+    .page-hero-inner { max-width: 1100px; margin: 0 auto; }
+    .page-hero h1 { font-family: var(--font-display); font-size: clamp(3rem,6vw,5rem); font-weight: 300; line-height: 1.05; margin-top: .5rem; }
+    .page-hero h1 em { font-style: italic; color: var(--accent); }
+    .page-hero-sub { font-family: var(--font-mono); font-size: .72rem; color: var(--ink-muted); letter-spacing: .1em; margin-top: 1rem; }
+
+    .certs-body { max-width: 1100px; margin: 0 auto; padding: 6rem 4rem; }
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+
+    .cert-card {
+      padding: 1.8rem 2rem; border: 1px solid var(--rule);
+      background: var(--white); transition: border-color .25s, transform .2s;
+      position: relative; overflow: hidden;
+    }
+    .cert-card::after {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--accent); transform: scaleY(0); transform-origin: top; transition: transform .3s;
+    }
+    .cert-card:hover { border-color: var(--accent-light); transform: translateY(-3px); }
+    .cert-card:hover::after { transform: scaleY(1); }
+    .cert-issuer { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+    .cert-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; color: var(--ink); line-height: 1.3; margin-bottom: .4rem; }
+    .cert-date { font-family: var(--font-mono); font-size: .62rem; color: var(--ink-muted); }
+
+    .certs-cta { margin-top: 3rem; padding: 2.5rem; border: 1px dashed var(--rule); text-align: center; }
+    .certs-cta p { font-family: var(--font-mono); font-size: .75rem; color: var(--ink-muted); margin-bottom: 1.2rem; letter-spacing: .06em; }
+
+    @media (max-width: 860px) {
+      .page-hero { padding: 4rem 2rem 3rem; }
+      .certs-body { padding: 4rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Amin <span>Pashna</span></a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="certifications.html" class="active">Certs</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="page-hero">
+      <div class="page-hero-inner">
+        <span class="section-label">Credentials</span>
+        <h1>Licenses &amp; <em>Certifications</em></h1>
+        <p class="page-hero-sub">34 total certifications · Microsoft · LinkedIn Learning · Azure</p>
+      </div>
+    </div>
+
+    <div class="certs-body">
+      <div class="certs-grid">
+        <div class="cert-card reveal"><div class="cert-issuer">Microsoft</div><div class="cert-name">Microsoft Certified: Azure AI Fundamentals</div><div class="cert-date">Issued Oct 2025</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn / Microsoft</div><div class="cert-name">Azure Storage Essential Training</div><div class="cert-date">Issued Oct 2025</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn Learning</div><div class="cert-name">Manage Storage in Azure</div><div class="cert-date">Issued Oct 2025</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn Learning</div><div class="cert-name">Agentic AI Solution Communication Architectures</div><div class="cert-date">Issued 2025</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn Learning</div><div class="cert-name">Generative AI: Working with Large Language Models</div><div class="cert-date">Issued 2025</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn Learning</div><div class="cert-name">The AI-Driven Software Developer: Optimize, Innovate, Transform</div><div class="cert-date">Issued 2025</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn Learning</div><div class="cert-name">Finding Your Time Management Style</div><div class="cert-date">Issued 2025</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn Learning</div><div class="cert-name">Introduction to Career Skills in Data Analytics</div><div class="cert-date">2024</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn Learning</div><div class="cert-name">SQL Server Administration</div><div class="cert-date">2023</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn Learning</div><div class="cert-name">Azure SQL Fundamentals</div><div class="cert-date">2023</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn Learning</div><div class="cert-name">NoSQL Essential Training</div><div class="cert-date">2022</div></div>
+        <div class="cert-card reveal"><div class="cert-issuer">LinkedIn Learning</div><div class="cert-name">MongoDB Essential Training</div><div class="cert-date">2022</div></div>
+      </div>
+
+      <div class="certs-cta reveal">
+        <p>View all 34 certifications on LinkedIn</p>
+        <a href="https://www.linkedin.com/in/amin-pashna-62b84ba1/" target="_blank" class="btn btn-primary">View on LinkedIn →</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 <a href="index.html">aminpashna.org</a> · Amin Pashna</p>
+    <ul class="footer-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="https://linkedin.com/in/amin-pashna-62b84ba1" target="_blank">LinkedIn</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+    const io = new IntersectionObserver(entries => entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*80); }), {threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
