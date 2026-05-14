@@ -367,7 +367,55 @@
     }
     .sql-chip:hover { border-color: var(--accent); color: var(--accent); }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    /* ── LOG PANEL ── */
+    .sql-log {
+      margin-top: 2rem;
+      border: 1px solid var(--rule);
+      background: #fff;
+    }
+    .sql-log-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .6rem 1rem;
+      border-bottom: 1px solid var(--rule);
+      background: var(--paper-warm);
+    }
+    .sql-log-title {
+      font-family: var(--font-mono); font-size: .62rem;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .sql-log-clear {
+      font-family: var(--font-mono); font-size: .62rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--ink-muted); background: none; border: none;
+      cursor: pointer; transition: color .2s;
+    }
+    .sql-log-clear:hover { color: #c0392b; }
+    .sql-log-entries {
+      padding: .6rem 1rem;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      line-height: 1.8;
+    }
+    .sql-log-empty {
+      color: var(--ink-muted);
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      padding: .6rem 0;
+    }
+    .sql-log-entry {
+      display: flex; gap: .8rem; align-items: baseline;
+      padding: .2rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .sql-log-entry:last-child { border-bottom: none; }
+    .sql-log-time { color: var(--ink-muted); flex-shrink: 0; font-size: .68rem; }
+    .sql-log-status { flex-shrink: 0; font-weight: 500; }
+    .sql-log-status.ok  { color: #2e7d32; }
+    .sql-log-status.err { color: #c0392b; }
+    .sql-log-msg { color: var(--ink-soft); }
 
     #certifications { max-width: 1100px; margin: 0 auto; padding: 7rem 4rem; }
     .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
@@ -729,9 +777,19 @@
       </div>
 
     </div>
-  </section>
 
-  <section id="certifications">
+    <!-- LOG PANEL -->
+    <div class="sql-log reveal">
+      <div class="sql-log-header">
+        <span class="sql-log-title">Request Log</span>
+        <button class="sql-log-clear" onclick="sqlLogClear()">Clear log</button>
+      </div>
+      <div class="sql-log-entries" id="sql-log-entries">
+        <div class="sql-log-empty" id="sql-log-empty">No requests yet.</div>
+      </div>
+    </div>
+
+  </section>
     <div class="reveal">
       <p class="section-label">Credentials</p>
       <h2 class="section-title">Licenses &amp; <em>Certifications</em></h2>
@@ -862,6 +920,30 @@
       });
     });
 
+    // ── LOG ──
+    function sqlLogAdd(status, message) {
+      const entries = document.getElementById('sql-log-entries');
+      const empty = document.getElementById('sql-log-empty');
+      if (empty) empty.remove();
+
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-US', { hour12: false });
+
+      const entry = document.createElement('div');
+      entry.className = 'sql-log-entry';
+      entry.innerHTML = `
+        <span class="sql-log-time">${time}</span>
+        <span class="sql-log-status ${status === 'OK' ? 'ok' : 'err'}">${status}</span>
+        <span class="sql-log-msg">${message}</span>
+      `;
+      entries.prepend(entry);
+    }
+
+    function sqlLogClear() {
+      const entries = document.getElementById('sql-log-entries');
+      entries.innerHTML = '<div class="sql-log-empty" id="sql-log-empty">No requests yet.</div>';
+    }
+
     async function sqlRun(tool) {
       const input = document.getElementById(`sql-input-${tool}`).value.trim();
       if (!input) { alert('Please enter a SQL query first.'); return; }
@@ -881,26 +963,40 @@
         prompt = `You are a SQL dialect expert. Convert the following ${from} SQL query to ${to} syntax. Show the converted query first, then explain each change made. Use plain text only, no markdown.\n\nOriginal ${from} query:\n${input}`;
       }
 
+      const start = Date.now();
       try {
         const response = await fetch('https://sql-toolkit-proxy.amin-p.workers.dev', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             model: 'claude-sonnet-4-20250514',
             max_tokens: 1000,
             messages: [{ role: 'user', content: prompt }]
           })
         });
+        const ms = Date.now() - start;
+        if (!response.ok) {
+          const errText = await response.text();
+          sqlLogAdd('ERR', `[${tool}] HTTP ${response.status} — ${errText.slice(0, 120)} (${ms}ms)`);
+          alert(`Error ${response.status}. Check the request log for details.`);
+          return;
+        }
         const data = await response.json();
+        if (data.error) {
+          sqlLogAdd('ERR', `[${tool}] API error: ${data.error.message} (${ms}ms)`);
+          alert(`API error: ${data.error.message}`);
+          return;
+        }
         const result = data.content?.map(b => b.text || '').join('') || 'No response received.';
+        sqlLogAdd('OK', `[${tool}] Success — ${result.length} chars returned (${ms}ms)`);
         const out = document.getElementById(`sql-output-${tool}`);
         document.getElementById(`sql-output-content-${tool}`).textContent = result;
         out.classList.add('visible');
         out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       } catch (err) {
-        alert('Error calling AI. Please try again.');
+        const ms = Date.now() - start;
+        sqlLogAdd('ERR', `[${tool}] Network error: ${err.message} (${ms}ms)`);
+        alert(`Network error: ${err.message}`);
       } finally {
         btn.disabled = false;
         btn.classList.remove('loading');
