@@ -234,12 +234,22 @@
     function sqlLogClear() { document.getElementById('sql-log-entries').innerHTML = '<div class="sql-log-empty" id="sql-log-empty">No requests yet.</div>'; }
     function renderMarkdown(text) {
       return text
-        .replace(/```[\w]*\n?([\s\S]*?)```/g, (_,code) => `<pre class="sql-code-block">${code.trim().replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`)
+        // Fenced code blocks
+        .replace(/```[\w]*\n?([\s\S]*?)```/g, (_,code) =>
+          `<pre class="sql-code-block">${code.trim().replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`)
+        // Bold **text**
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Inline `code`
+        .replace(/`([^`]+)`/g, '<code style="font-family:var(--font-mono);background:var(--paper-warm);padding:.1em .3em;font-size:.85em;">$1</code>')
+        // Numbered list items (must come before bullet)
         .replace(/^(\d+)\.\s+(.+)$/gm, '<div class="sql-list-item"><span class="sql-list-num">$1</span><span>$2</span></div>')
+        // Bullet / dash list items
         .replace(/^[-•]\s+(.+)$/gm, '<div class="sql-bullet-item">$1</div>')
+        // Double newlines = paragraph break
         .replace(/\n{2,}/g, '</p><p class="sql-para">')
+        // Single newlines = line break
         .replace(/\n/g, '<br>')
+        // Wrap everything
         .replace(/^/, '<p class="sql-para">').replace(/$/, '</p>');
     }
     async function sqlRun(tool) {
@@ -248,9 +258,43 @@
       const btn = document.getElementById(`sql-btn-${tool}`);
       btn.disabled = true; btn.classList.add('loading');
       let prompt = '';
-      if (tool === 'explain') prompt = `You are a SQL expert. Explain the following SQL query in clear, plain English. Break it down step by step: what each clause does, what data it fetches, and what the final result looks like. Be concise but thorough. Use plain text only, no markdown.\n\nSQL Query:\n${input}`;
-      else if (tool === 'optimize') prompt = `You are a senior database performance engineer. Analyze this SQL query and provide specific, actionable optimization suggestions. Include: 1) Issues found, 2) Rewritten optimized query, 3) Explanation of each change. Use plain text only, no markdown.\n\nSQL Query:\n${input}`;
-      else { const from = document.getElementById('sql-from').value; const to = document.getElementById('sql-to').value; prompt = `You are a SQL dialect expert. Convert the following ${from} SQL query to ${to} syntax. Show the converted query first, then explain each change made. Use plain text only, no markdown.\n\nOriginal ${from} query:\n${input}`; }
+      if (tool === 'explain') prompt = `You are a SQL expert. Explain the following SQL query step by step. Format your response exactly like this:
+- Start with one short summary sentence.
+- Then number each clause (1. SELECT, 2. FROM, etc.) with a bold clause name followed by a colon and explanation.
+- End with a "Final Result:" line describing what the query returns.
+Use **bold** for clause names. Do not use headers or bullet points, only numbered items.
+
+SQL Query:\n${input}`;
+      else if (tool === 'optimize') prompt = `You are a senior database performance engineer. Analyze this SQL query and respond in exactly this format:
+**Issues Found:**
+1. [issue one]
+2. [issue two]
+
+**Optimized Query:**
+\`\`\`sql
+[rewritten query here]
+\`\`\`
+
+**What Changed:**
+1. [explanation of change one]
+2. [explanation of change two]
+
+Use **bold** for section headers. Number each issue and change.
+
+SQL Query:\n${input}`;
+      else { const from = document.getElementById('sql-from').value; const to = document.getElementById('sql-to').value; prompt = `You are a SQL dialect expert. Convert the following ${from} query to ${to}. Respond in exactly this format:
+**Converted ${to} Query:**
+\`\`\`sql
+[converted query here]
+\`\`\`
+
+**Changes Made:**
+1. [first change with **function/keyword** bolded]
+2. [second change with **function/keyword** bolded]
+
+Use **bold** for section headers and function names.
+
+Original ${from} query:\n${input}`; }
       const start = Date.now();
       try {
         const response = await fetch('https://sql-toolkit-proxy.amin-p.workers.dev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'gpt-4o-mini', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] }) });
