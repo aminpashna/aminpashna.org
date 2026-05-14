@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skills — Amin Pashna</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-hero { padding: 5rem 4rem 4rem; background: var(--paper-warm); border-bottom: 1px solid var(--rule); }
+    .page-hero-inner { max-width: 1100px; margin: 0 auto; }
+    .page-hero h1 { font-family: var(--font-display); font-size: clamp(3rem,6vw,5rem); font-weight: 300; line-height: 1.05; margin-top: .5rem; }
+    .page-hero h1 em { font-style: italic; color: var(--accent); }
+
+    .skills-body { max-width: 1100px; margin: 0 auto; padding: 6rem 4rem; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+
+    .skill-group {
+      padding: 2.2rem; border: 1px solid var(--rule);
+      background: var(--white); position: relative; overflow: hidden;
+      transition: border-color .25s, transform .25s;
+    }
+    .skill-group::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s;
+    }
+    .skill-group:hover { border-color: var(--accent-light); transform: translateY(-4px); }
+    .skill-group:hover::after { transform: scaleX(1); }
+
+    .skill-group-icon { font-size: 1.4rem; margin-bottom: .8rem; }
+    .skill-group-title { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: .45rem; }
+
+    .skills-bar-section { margin-top: 5rem; padding-top: 4rem; border-top: 1px solid var(--rule); }
+    .skills-bar-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 300; margin-bottom: 2rem; }
+    .skills-bar-title em { font-style: italic; color: var(--accent); }
+    .skill-bar-item { margin-bottom: 1.4rem; }
+    .skill-bar-header { display: flex; justify-content: space-between; margin-bottom: .4rem; }
+    .skill-bar-name { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+    .skill-bar-pct { font-family: var(--font-mono); font-size: .68rem; color: var(--ink-muted); }
+    .skill-bar-track { height: 3px; background: var(--rule); }
+    .skill-bar-fill { height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform 1s ease; }
+    .skill-bar-fill.animate { transform: scaleX(1); }
+
+    @media (max-width: 860px) {
+      .page-hero { padding: 4rem 2rem 3rem; }
+      .skills-body { padding: 4rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Amin <span>Pashna</span></a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="skills.html" class="active">Skills</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="certifications.html">Certs</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="page-hero">
+      <div class="page-hero-inner">
+        <span class="section-label">Expertise</span>
+        <h1>Skills &amp; <em>Tools</em></h1>
+      </div>
+    </div>
+
+    <div class="skills-body">
+      <div class="skills-grid">
+        <div class="skill-group reveal">
+          <div class="skill-group-icon">🗄️</div>
+          <p class="skill-group-title">Database</p>
+          <div class="skill-tags">
+            <span class="tag">SQL Server</span><span class="tag">MongoDB</span><span class="tag">T-SQL</span>
+            <span class="tag">Query Optimization</span><span class="tag">Replication</span>
+            <span class="tag">Mirroring</span><span class="tag">Log Shipping</span>
+            <span class="tag">High Availability</span><span class="tag">Disaster Recovery</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-icon">☁️</div>
+          <p class="skill-group-title">Cloud & Azure</p>
+          <div class="skill-tags">
+            <span class="tag">Microsoft Azure</span><span class="tag">Azure Storage</span>
+            <span class="tag">Cloud Data Warehousing</span><span class="tag">Azure AI</span>
+            <span class="tag">Azure Fundamentals</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-icon">⚙️</div>
+          <p class="skill-group-title">Engineering</p>
+          <div class="skill-tags">
+            <span class="tag">Data Engineering</span><span class="tag">ETL Pipelines</span>
+            <span class="tag">Performance Tuning</span><span class="tag">System Design</span>
+            <span class="tag">SQL Server on Linux</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-icon">🤖</div>
+          <p class="skill-group-title">AI & Development</p>
+          <div class="skill-tags">
+            <span class="tag">Generative AI</span><span class="tag">Large Language Models</span>
+            <span class="tag">Agentic AI</span><span class="tag">JavaScript</span>
+            <span class="tag">Cloudflare Workers</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skills-bar-section reveal">
+        <h3 class="skills-bar-title">Core <em>Proficiency</em></h3>
+        <div id="bars">
+          <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">SQL Server</span><span class="skill-bar-pct">Expert</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-w="0.97"></div></div></div>
+          <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Database Replication</span><span class="skill-bar-pct">Expert</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-w="0.95"></div></div></div>
+          <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Query Optimization</span><span class="skill-bar-pct">Expert</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-w="0.93"></div></div></div>
+          <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Microsoft Azure</span><span class="skill-bar-pct">Advanced</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-w="0.82"></div></div></div>
+          <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">MongoDB</span><span class="skill-bar-pct">Advanced</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-w="0.80"></div></div></div>
+          <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Data Engineering</span><span class="skill-bar-pct">Advanced</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-w="0.85"></div></div></div>
+          <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Generative AI</span><span class="skill-bar-pct">Intermediate</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-w="0.65"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 <a href="index.html">aminpashna.org</a> · Amin Pashna</p>
+    <ul class="footer-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="https://linkedin.com/in/amin-pashna-62b84ba1" target="_blank">LinkedIn</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+    const io = new IntersectionObserver(entries => entries.forEach((e,i) => {
+      if(e.isIntersecting) {
+        setTimeout(()=>e.target.classList.add('visible'),i*100);
+        e.target.querySelectorAll('.skill-bar-fill').forEach((bar,j) => {
+          setTimeout(() => {
+            bar.style.transform = `scaleX(${bar.dataset.w})`;
+          }, j * 120 + 300);
+        });
+      }
+    }), {threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
