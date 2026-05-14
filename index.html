@@ -345,10 +345,48 @@
     }
     .sql-btn-copy:hover { color: var(--ink); }
     .sql-output-content {
-      padding: 1.2rem;
-      font-family: var(--font-mono); font-size: .8rem;
-      line-height: 1.9; color: var(--ink-soft);
-      white-space: pre-wrap; word-break: break-word;
+      padding: 1.2rem 1.4rem;
+      font-family: var(--font-display);
+      font-size: .98rem;
+      line-height: 1.8;
+      color: var(--ink-soft);
+    }
+    .sql-output-content .sql-para {
+      margin-bottom: .9rem;
+    }
+    .sql-output-content strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .sql-output-content .sql-list-item {
+      display: flex; gap: .8rem;
+      margin-bottom: .6rem; align-items: baseline;
+    }
+    .sql-output-content .sql-list-num {
+      font-family: var(--font-mono); font-size: .72rem;
+      color: var(--accent); font-weight: 500;
+      min-width: 1.2rem; flex-shrink: 0;
+    }
+    .sql-output-content .sql-bullet-item {
+      padding-left: 1rem;
+      margin-bottom: .4rem;
+      position: relative;
+    }
+    .sql-output-content .sql-bullet-item::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--accent);
+    }
+    .sql-code-block {
+      background: var(--ink);
+      color: #d4c9b0;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      line-height: 1.7;
+      padding: 1.1rem 1.3rem;
+      margin: .8rem 0;
+      overflow-x: auto;
+      white-space: pre;
     }
 
     .sql-examples { margin-top: 1.8rem; }
@@ -944,6 +982,26 @@
       entries.innerHTML = '<div class="sql-log-empty" id="sql-log-empty">No requests yet.</div>';
     }
 
+    function renderMarkdown(text) {
+      return text
+        // Code blocks (```...```)
+        .replace(/```[\w]*\n?([\s\S]*?)```/g, (_, code) =>
+          `<pre class="sql-code-block">${code.trim().replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`)
+        // Bold **text**
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Numbered list items
+        .replace(/^(\d+)\.\s+(.+)$/gm, '<div class="sql-list-item"><span class="sql-list-num">$1</span><span>$2</span></div>')
+        // Bullet list items
+        .replace(/^[-•]\s+(.+)$/gm, '<div class="sql-bullet-item">$1</div>')
+        // Double newlines become paragraph breaks
+        .replace(/\n{2,}/g, '</p><p class="sql-para">')
+        // Single newlines become <br>
+        .replace(/\n/g, '<br>')
+        // Wrap in paragraph
+        .replace(/^/, '<p class="sql-para">')
+        .replace(/$/, '</p>');
+    }
+
     async function sqlRun(tool) {
       const input = document.getElementById(`sql-input-${tool}`).value.trim();
       if (!input) { alert('Please enter a SQL query first.'); return; }
@@ -990,7 +1048,7 @@
         const result = data.content?.map(b => b.text || '').join('') || 'No response received.';
         sqlLogAdd('OK', `[${tool}] Success — ${result.length} chars returned (${ms}ms)`);
         const out = document.getElementById(`sql-output-${tool}`);
-        document.getElementById(`sql-output-content-${tool}`).textContent = result;
+        document.getElementById(`sql-output-content-${tool}`).innerHTML = renderMarkdown(result);
         out.classList.add('visible');
         out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       } catch (err) {
