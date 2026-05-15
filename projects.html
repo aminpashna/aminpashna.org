@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects — Amin Pashna</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="stylesheet" href="style.css" />
   <style>
     .page-hero { padding: 5rem 4rem 4rem; background: var(--paper-warm); border-bottom: 1px solid var(--rule); }
@@ -90,7 +91,43 @@
     .sql-log-status.err { color: #c0392b; }
     .sql-log-msg { color: var(--ink-soft); }
 
-    @media (max-width: 860px) {
+    /* ── USAGE LIMIT ── */
+    .usage-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .7rem 1rem; background: var(--paper-warm);
+      border: 1px solid var(--rule); margin-bottom: 1.5rem;
+    }
+    .usage-bar-left { display: flex; align-items: center; gap: .8rem; }
+    .usage-label { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-muted); }
+    .usage-dots { display: flex; gap: .35rem; }
+    .usage-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rule); transition: background .3s; }
+    .usage-dot.used { background: var(--accent); }
+    .usage-dot.last { background: #c0392b; }
+    .usage-remaining { font-family: var(--font-mono); font-size: .62rem; color: var(--ink-muted); }
+
+    /* ── GATE MODAL ── */
+    .gate-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,15,15,.85); z-index: 500;
+      align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .gate-overlay.visible { display: flex; }
+    .gate-modal {
+      background: var(--paper); max-width: 480px; width: 90%;
+      padding: 3rem; position: relative;
+      border-top: 3px solid var(--accent);
+    }
+    .gate-eyebrow { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: .8rem; }
+    .gate-title { font-family: var(--font-display); font-size: 2.2rem; font-weight: 300; line-height: 1.1; margin-bottom: 1rem; }
+    .gate-title em { font-style: italic; color: var(--accent); }
+    .gate-desc { font-size: 1rem; color: var(--ink-soft); line-height: 1.7; margin-bottom: 2rem; }
+    .gate-actions { display: flex; flex-direction: column; gap: .8rem; }
+    .gate-btn-primary { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; background: var(--ink); color: var(--paper); border: none; padding: .9rem 1.5rem; cursor: pointer; transition: background .2s; text-align: center; text-decoration: none; display: block; }
+    .gate-btn-primary:hover { background: var(--accent); }
+    .gate-btn-secondary { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; background: transparent; color: var(--ink-muted); border: 1px solid var(--rule); padding: .8rem 1.5rem; cursor: pointer; transition: all .2s; text-align: center; }
+    .gate-btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .gate-note { font-family: var(--font-mono); font-size: .6rem; color: var(--ink-muted); margin-top: 1.2rem; text-align: center; letter-spacing: .06em; }
       .page-hero { padding: 4rem 2rem 3rem; }
       .projects-body { padding: 4rem 2rem; }
     }
@@ -145,6 +182,35 @@
         </div>
         <h2 class="project-title">SQL <em>Toolkit</em></h2>
         <p class="project-desc">Three tools in one: explain any SQL query in plain English, get optimization suggestions for slow queries, and convert between SQL dialects — all powered by AI. Built, deployed, and maintained by me.</p>
+      </div>
+
+      <!-- USAGE BAR -->
+      <div class="usage-bar reveal">
+        <div class="usage-bar-left">
+          <span class="usage-label">Free uses</span>
+          <div class="usage-dots" id="usage-dots">
+            <div class="usage-dot" id="dot-1"></div>
+            <div class="usage-dot" id="dot-2"></div>
+            <div class="usage-dot" id="dot-3"></div>
+            <div class="usage-dot" id="dot-4"></div>
+            <div class="usage-dot" id="dot-5"></div>
+          </div>
+        </div>
+        <span class="usage-remaining" id="usage-remaining">5 remaining</span>
+      </div>
+
+      <!-- GATE MODAL -->
+      <div class="gate-overlay" id="gate-overlay">
+        <div class="gate-modal">
+          <p class="gate-eyebrow">Free limit reached</p>
+          <h2 class="gate-title">You've used your <em>5 free</em> queries</h2>
+          <p class="gate-desc">Thank you for trying the SQL Toolkit! To continue using the Explain, Optimize, and Convert tools, get in touch — I'd love to hear what you're working on.</p>
+          <div class="gate-actions">
+            <a href="contact.html" class="gate-btn-primary">Get in Touch →</a>
+            <button class="gate-btn-secondary" onclick="resetLimit()">Reset (Demo Mode)</button>
+          </div>
+          <p class="gate-note">This is a personal project — limit resets on page refresh in demo mode.</p>
+        </div>
       </div>
 
       <div class="reveal">
@@ -240,7 +306,68 @@
     const io = new IntersectionObserver(entries => entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*100); }), {threshold:.1});
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    const sqlExamples = {
+    // ── USAGE LIMIT ──
+    const LIMIT = 5;
+    const STORAGE_KEY = 'sql_toolkit_uses';
+
+    function getUses() {
+      try { return parseInt(localStorage.getItem(STORAGE_KEY) || '0'); }
+      catch(e) { return 0; }
+    }
+
+    function setUses(n) {
+      try { localStorage.setItem(STORAGE_KEY, n); } catch(e) {}
+    }
+
+    function updateUsageBar() {
+      const uses = getUses();
+      const remaining = Math.max(0, LIMIT - uses);
+      for (let i = 1; i <= LIMIT; i++) {
+        const dot = document.getElementById('dot-' + i);
+        if (!dot) continue;
+        dot.classList.remove('used', 'last');
+        if (i <= uses) {
+          if (i === LIMIT) dot.classList.add('last');
+          else dot.classList.add('used');
+        }
+      }
+      const label = document.getElementById('usage-remaining');
+      if (label) {
+        label.textContent = remaining === 0 ? 'Limit reached' : remaining + ' remaining';
+        label.style.color = remaining <= 1 ? '#c0392b' : '';
+      }
+      if (remaining === 0) {
+        // Disable all run buttons
+        document.querySelectorAll('.sql-btn-run').forEach(btn => {
+          btn.disabled = true;
+          btn.querySelector('span').textContent = 'Limit Reached';
+        });
+      }
+    }
+
+    function checkLimit() {
+      const uses = getUses();
+      if (uses >= LIMIT) {
+        document.getElementById('gate-overlay').classList.add('visible');
+        return false;
+      }
+      return true;
+    }
+
+    function resetLimit() {
+      setUses(0);
+      document.getElementById('gate-overlay').classList.remove('visible');
+      document.querySelectorAll('.sql-btn-run').forEach(btn => {
+        btn.disabled = false;
+      });
+      document.getElementById('sql-btn-explain').querySelector('span').textContent = 'Explain this Query';
+      document.getElementById('sql-btn-optimize').querySelector('span').textContent = 'Optimize this Query';
+      document.getElementById('sql-btn-convert').querySelector('span').textContent = 'Convert Dialect';
+      updateUsageBar();
+    }
+
+    // Init on load
+    updateUsageBar();
       explain: [`SELECT name, email FROM users WHERE active = 1;`,`SELECT u.name, COUNT(o.id) AS order_count\nFROM users u\nLEFT JOIN orders o ON u.id = o.user_id\nWHERE u.created_at > '2024-01-01'\nGROUP BY u.name\nHAVING COUNT(o.id) > 5\nORDER BY order_count DESC;`,`WITH ranked AS (\n  SELECT employee_id, salary, department_id,\n    RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS salary_rank\n  FROM employees\n)\nSELECT * FROM ranked WHERE salary_rank <= 3;`,`SELECT name FROM products\nWHERE category_id IN (\n  SELECT id FROM categories WHERE active = 1\n);`],
       optimize: [`SELECT * FROM orders WHERE status = 'pending';`,`SELECT * FROM orders o\nWHERE (SELECT COUNT(*) FROM order_items i WHERE i.order_id = o.id) > 3;`,`SELECT * FROM employees WHERE YEAR(hire_date) = 2023;`],
       convert: [`SELECT TOP 10 name FROM products ORDER BY price DESC;`,`SELECT name, GETDATE() as today FROM employees;`,`SELECT name, ISNULL(phone, 'N/A') FROM contacts;`]
@@ -296,6 +423,7 @@
         .replace(/^/, '<p class="sql-para">').replace(/$/, '</p>');
     }
     async function sqlRun(tool) {
+      if (!checkLimit()) return;
       const input = document.getElementById(`sql-input-${tool}`).value.trim();
       if (!input) { alert('Please enter a SQL query first.'); return; }
       const btn = document.getElementById(`sql-btn-${tool}`);
@@ -346,6 +474,9 @@ Original ${from} query:\n${input}`; }
         const data = await response.json();
         if (data.error) { sqlLogAdd('ERR', `[${tool}] API error: ${data.error.message} (${ms}ms)`); alert(`API error: ${data.error.message}`); return; }
         const result = data.content?.map(b => b.text || '').join('') || 'No response received.';
+        // Increment usage counter
+        setUses(getUses() + 1);
+        updateUsageBar();
         sqlLogAdd('OK', `[${tool}] Success — ${result.length} chars returned (${ms}ms)`);
         const out = document.getElementById(`sql-output-${tool}`);
         document.getElementById(`sql-output-content-${tool}`).innerHTML = renderMarkdown(result);
