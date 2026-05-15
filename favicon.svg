@@ -1,0 +1,17 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" fill="#0a0e1a"/>
+  <!-- Azure horizon glow -->
+  <rect x="0" y="44" width="64" height="1" fill="#0078d4" opacity="0.8"/>
+  <rect x="0" y="45" width="64" height="10" fill="#0078d4" opacity="0.1"/>
+  <!-- Stars -->
+  <circle cx="48" cy="12" r="1.2" fill="#ffffff" opacity="0.7"/>
+  <circle cx="10" cy="18" r="0.8" fill="#ffffff" opacity="0.5"/>
+  <circle cx="56" cy="30" r="1" fill="#ffffff" opacity="0.4"/>
+  <circle cx="22" cy="8" r="0.7" fill="#ffffff" opacity="0.3"/>
+  <!-- Plane body climbing up-right -->
+  <path d="M14,42 L38,20 L42,22 L32,32 L38,34 L34,38 L26,32 L14,48 Z" fill="#b5863a"/>
+  <!-- Wing -->
+  <path d="M26,32 L20,24 L28,28 Z" fill="#d4a85a" opacity="0.85"/>
+  <!-- AP initials below horizon -->
+  <text x="32" y="57" text-anchor="middle" font-family="Georgia, serif" font-size="8" font-weight="600" fill="#b5863a" opacity="0.75">AP</text>
+</svg>
