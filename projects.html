@@ -318,6 +318,69 @@ async function initAuth(){const t=localStorage.getItem('sql_token');if(!t){docum
 async function checkLimit(){if(!currentToken){window.location.href='login.html';return false;}if(currentUses>=LIMIT){document.getElementById('gate-overlay').classList.add('visible');return false;}return true;}
 async function trackUse(){if(!currentToken)return;try{const r=await fetch(API+'/auth/use',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:currentToken})});const d=await r.json();if(d.uses!==undefined){currentUses=d.uses;updateUserBar(localStorage.getItem('sql_name')||'',currentUses);}}catch(e){}}
 initAuth();
+  
+    const sqlExamples = {
+      explain: [
+        `SELECT name, email FROM users WHERE active = 1;`,
+        `SELECT u.name, COUNT(o.id) AS order_count\nFROM users u\nLEFT JOIN orders o ON u.id = o.user_id\nWHERE u.created_at > '2024-01-01'\nGROUP BY u.name\nHAVING COUNT(o.id) > 5\nORDER BY order_count DESC;`,
+        `WITH ranked AS (\n  SELECT employee_id, salary, department_id,\n    RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS salary_rank\n  FROM employees\n)\nSELECT * FROM ranked WHERE salary_rank <= 3;`,
+        `SELECT name FROM products\nWHERE category_id IN (\n  SELECT id FROM categories WHERE active = 1\n);`
+      ],
+      optimize: [
+        `SELECT * FROM orders WHERE status = 'pending';`,
+        `SELECT * FROM orders o\nWHERE (SELECT COUNT(*) FROM order_items i WHERE i.order_id = o.id) > 3;`,
+        `SELECT * FROM employees WHERE YEAR(hire_date) = 2023;`
+      ],
+      convert: [
+        `SELECT TOP 10 name FROM products ORDER BY price DESC;`,
+        `SELECT name, GETDATE() as today FROM employees;`,
+        `SELECT name, ISNULL(phone, 'N/A') FROM contacts;`
+      ]
+    };
+
+    function sqlExample(tool, idx) {
+      document.getElementById('sql-input-'+tool).value = sqlExamples[tool][idx];
+      if (tool === 'convert') { document.getElementById('sql-from').value = 'SQL Server'; document.getElementById('sql-to').value = 'PostgreSQL'; }
+    }
+    function sqlClear(tool) { document.getElementById('sql-input-'+tool).value = ''; document.getElementById('sql-output-'+tool).classList.remove('visible'); }
+    function sqlCopy(tool) {
+      const text = document.getElementById('sql-output-content-'+tool).innerText;
+      navigator.clipboard.writeText(text).then(() => { const btn = document.querySelector('#sql-output-'+tool+' .sql-btn-copy'); btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 1500); });
+    }
+
+    document.querySelectorAll('.sql-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.sql-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.sql-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('sql-panel-'+tab.dataset.tool).classList.add('active');
+      });
+    });
+
+    function sqlLogAdd(status, message) {
+      const entries = document.getElementById('sql-log-entries');
+      const empty = document.getElementById('sql-log-empty');
+      if (empty) empty.remove();
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-US', {hour12:false});
+      const entry = document.createElement('div');
+      entry.className = 'sql-log-entry';
+      entry.innerHTML = '<span class="sql-log-time">'+time+'</span><span class="sql-log-status '+(status==='OK'?'ok':'err')+'">'+status+'</span><span class="sql-log-msg">'+message+'</span>';
+      entries.prepend(entry);
+    }
+    function sqlLogClear() { document.getElementById('sql-log-entries').innerHTML = '<div class="sql-log-empty" id="sql-log-empty">No requests yet.</div>'; }
+
+    function renderMarkdown(text) {
+      return text
+        .replace(/```[\w]*\n?([\s\S]*?)```/g, (_,code) => '<pre class="sql-code-block">'+code.trim().replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</pre>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/`([^`]+)`/g, '<code style="font-family:var(--font-mono);background:var(--paper-warm);padding:.1em .3em;font-size:.85em;">$1</code>')
+        .replace(/^(\d+)\. (.+)$/gm, '<div class="sql-list-item"><span class="sql-list-num">$1</span><span>$2</span></div>')
+        .replace(/^[-•] (.+)$/gm, '<div class="sql-bullet-item">$1</div>')
+        .replace(/\n{2,}/g, '</p><p class="sql-para">')
+        .replace(/\n/g, '<br>')
+        .replace(/^/, '<p class="sql-para">').replace(/$/, '</p>');
+    }
   </script>
 </body>
 </html>
