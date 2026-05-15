@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — aminpashna.org</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admin — aminpashna.org</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --ink: #0f0f0f; --ink-soft: #3a3a3a; --ink-muted: #888;
-      --paper: #f7f5f0; --paper-warm: #ede9e0; --white: #fff;
-      --accent: #b5863a; --accent-light: #d4a85a; --rule: #d8d3c8;
-      --font-display: 'Cormorant Garamond', Georgia, serif;
-      --font-mono: 'DM Mono', 'Courier New', monospace;
-      --red: #c0392b; --green: #2e7d32;
+        --ink: #0f0f0f; --ink-soft: #3a3a3a; --ink-muted: #888;
+        --paper: #f7f5f0; --paper-warm: #ede9e0; --white: #fff;
+        --accent: #b5863a; --accent-light: #d4a85a; --rule: #d8d3c8;
+        --font-display: 'Cormorant Garamond', Georgia, serif;
+        --font-mono: 'DM Mono', 'Courier New', monospace;
+        --red: #c0392b; --green: #2e7d32;
     }
     body { background: var(--paper); color: var(--ink); font-family: var(--font-display); font-weight: 300; min-height: 100vh; }
     #login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--ink); }
@@ -28,8 +29,10 @@
     .form-input { width: 100%; border: 1px solid var(--rule); padding: .8rem 1rem; font-family: var(--font-mono); font-size: .85rem; color: var(--ink); background: var(--white); outline: none; transition: border-color .2s; }
     .form-input:focus { border-color: var(--accent); }
     .login-btn { width: 100%; padding: .9rem; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; background: var(--ink); color: var(--paper); border: none; cursor: pointer; transition: background .2s; margin-top: .4rem; }
-    .login-btn:hover { background: var(--accent); }
+    .login-btn:hover:not(:disabled) { background: var(--accent); }
+    .login-btn:disabled { opacity: .5; cursor: not-allowed; }
     .login-error { margin-top: 1rem; padding: .7rem 1rem; background: #fdf2f2; border: 1px solid #f5c6cb; color: var(--red); font-family: var(--font-mono); font-size: .72rem; display: none; }
+    .lockout-msg { margin-top: 1rem; padding: .7rem 1rem; background: #fff8e1; border: 1px solid #ffe082; color: #7a5c00; font-family: var(--font-mono); font-size: .72rem; display: none; }
     #dashboard { display: none; }
     header { background: var(--ink); padding: 1.2rem 3rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; }
     .header-logo { font-family: var(--font-display); font-size: 1rem; font-weight: 600; letter-spacing: .06em; color: var(--paper); text-decoration: none; }
@@ -65,84 +68,204 @@
     .badge-inactive { border-color: var(--rule); color: var(--ink-muted); }
     .loading-row td { text-align: center; padding: 3rem; font-family: var(--font-mono); font-size: .75rem; color: var(--ink-muted); letter-spacing: .1em; }
     footer { margin-top: 4rem; padding: 1.5rem 2rem; border-top: 1px solid var(--rule); font-family: var(--font-mono); font-size: .62rem; color: var(--ink-muted); text-align: center; }
-  </style>
-</head>
-<body>
-<div id="login-screen">
-  <div class="login-box">
-    <p class="login-eyebrow">aminpashna.org</p>
-    <h1 class="login-title">Admin <em>Access</em></h1>
-    <div class="form-group">
-      <label class="form-label">Password</label>
-      <input class="form-input" type="password" id="admin-pass" placeholder="········" />
-    </div>
-    <button class="login-btn" onclick="adminLogin()">Enter Dashboard →</button>
-    <div class="login-error" id="login-error">Incorrect password.</div>
-  </div>
-</div>
-<div id="dashboard">
-  <header>
-    <a href="index.html" class="header-logo">Amin <span>Pashna</span></a>
-    <div class="header-right">
-      <span class="header-label">Admin Dashboard</span>
-      <button class="logout-btn" onclick="adminLogout()">Sign Out</button>
-    </div>
-  </header>
-  <div class="dashboard-body">
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total Users</div></div>
-      <div class="stat-card"><div class="stat-num" id="stat-queries">—</div><div class="stat-label">Total Queries</div></div>
-      <div class="stat-card"><div class="stat-num" id="stat-active">—</div><div class="stat-label">Active Users</div></div>
-      <div class="stat-card"><div class="stat-num" id="stat-today">—</div><div class="stat-label">Joined Today</div></div>
-    </div>
-    <div class="section-header">
-      <h2 class="section-title">Registered <em>Users</em></h2>
-      <button class="refresh-btn" onclick="loadUsers()">↻ Refresh</button>
-    </div>
-    <table class="user-table">
-      <thead><tr><th>Name</th><th>Email</th><th>Queries Used</th><th>Joined</th><th>Status</th></tr></thead>
-      <tbody id="user-tbody"><tr class="loading-row"><td colspan="5">LOADING USERS...</td></tr></tbody>
-    </table>
-    <footer>aminpashna.org · Admin · Data stored in Cloudflare KV</footer>
-  </div>
-</div>
-<script>
-  const ADMIN_PASSWORD = 'aminadmin2026';
-  const API = 'https://sql-toolkit-proxy.amin-p.workers.dev';
-  if (sessionStorage.getItem('admin_auth') === 'true') showDashboard();
-  document.getElementById('admin-pass').addEventListener('keydown', e => { if (e.key === 'Enter') adminLogin(); });
-  function adminLogin() {
-    const pass = document.getElementById('admin-pass').value;
-    if (pass === ADMIN_PASSWORD) { sessionStorage.setItem('admin_auth','true'); showDashboard(); }
-    else { document.getElementById('login-error').style.display='block'; document.getElementById('admin-pass').value=''; document.getElementById('admin-pass').focus(); }
-  }
-  function adminLogout() { sessionStorage.removeItem('admin_auth'); document.getElementById('dashboard').style.display='none'; document.getElementById('login-screen').style.display='flex'; document.getElementById('admin-pass').value=''; }
-  function showDashboard() { document.getElementById('login-screen').style.display='none'; document.getElementById('dashboard').style.display='block'; loadUsers(); }
-  async function loadUsers() {
-    document.getElementById('user-tbody').innerHTML = '<tr class="loading-row"><td colspan="5">LOADING...</td></tr>';
-    try {
-      const res = await fetch(API+'/admin/users', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({adminKey:ADMIN_PASSWORD})});
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error||'Failed');
-      renderUsers(data.users);
-    } catch(e) { document.getElementById('user-tbody').innerHTML = '<tr class="loading-row"><td colspan="5">Error: '+e.message+'</td></tr>'; }
-  }
-  function renderUsers(users) {
-    const today = new Date().toISOString().substring(0,10);
-    document.getElementById('stat-total').textContent = users.length;
-    document.getElementById('stat-queries').textContent = users.reduce((s,u)=>s+(u.uses||0),0);
-    document.getElementById('stat-active').textContent = users.filter(u=>(u.uses||0)>0).length;
-    document.getElementById('stat-today').textContent = users.filter(u=>u.createdAt?.startsWith(today)).length;
-    users.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
-    if (!users.length) { document.getElementById('user-tbody').innerHTML='<tr class="loading-row"><td colspan="5">No users yet.</td></tr>'; return; }
-    document.getElementById('user-tbody').innerHTML = users.map(u => {
-      const pct = Math.round(((u.uses||0)/20)*100);
-      const date = u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
-      const active = (u.uses||0)>0;
-      return '<tr><td><div class="user-name">'+esc(u.name)+'</div></td><td><div class="user-email">'+esc(u.email)+'</div></td><td><div class="uses-bar-wrap"><div class="uses-bar"><div class="uses-bar-fill" style="width:'+pct+'%"></div></div><span class="uses-num">'+(u.uses||0)+' / 20</span></div></td><td><span class="joined-date">'+date+'</span></td><td><span class="badge '+(active?'badge-active':'badge-inactive')+'">'+(active?'Active':'New')+'</span></td></tr>';
-    }).join('');
-  }
-  function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-</script>
-</body>
-</html>
+    </style>
+  </head>
+  <body>
+    <div id="login-screen">
+        <div class="login-box">
+              <p class="login-eyebrow">aminpashna.org</p>p>
+              <h1 class="login-title">Admin <em>Access</em></h1>h1>
+            <div class="form-group">
+                  <label class="form-label" for="admin-pass">Password</label>label>
+                  <input class="form-input" type="password" id="admin-pass" placeholder="········" autocomplete="off" />
+            </div>div>
+            <button class="login-btn" id="login-btn" onclick="adminLogin()">Enter Dashboard →</button>button>
+            <div class="login-error" id="login-error">Incorrect password.</div>div>
+            <div class="lockout-msg" id="lockout-msg"></div>div>
+        </div>div>
+    </div>div>
+  <div id="dashboard">
+    <header>
+          <a href="index.html" class="header-logo">Amin <span>Pashna</span></a>a>
+        <div class="header-right">
+              <span class="header-label">Admin Dashboard</span>
+              <button class="logout-btn" onclick="adminLogout()">Sign Out</button>button>
+        </div>div>
+    </header>
+    <div class="dashboard-body">
+        <div class="stats-row">
+              <div class="stat-card"><div class="stat-num" id="stat-total">—</div>div><div class="stat-label">Total Users</div>div></div>div>
+              <div class="stat-card"><div class="stat-num" id="stat-queries">—</div>div><div class="stat-label">Total Queries</div>div></div>div>
+              <div class="stat-card"><div class="stat-num" id="stat-active">—</div>div><div class="stat-label">Active Users</div>div></div>div>
+              <div class="stat-card"><div class="stat-num" id="stat-today">—</div>div><div class="stat-label">Joined Today</div>div></div>div>
+        </div>div>
+        <div class="section-header">
+              <h2 class="section-title">Registered <em>Users</em></h2>h2>
+              <button class="refresh-btn" onclick="loadUsers()">↻ Refresh</button>button>
+        </div>div>
+        <table class="user-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Queries Used</th><th>Joined</th><th>Status</th></tr></thead>
+              <tbody id="user-tbody"><tr class="loading-row"><td colspan="5">LOADING USERS...</td>td></tr></tbody>tbody>
+        </table>table>
+        <footer>aminpashna.org · Admin · Data stored in Cloudflare KV</footer>
+    </div>div>
+  </div>div>
+  <script>
+      const MAX_ATTEMPTS = 5;
+      const LOCKOUT_MS = 5 * 60 * 1000;
+      const ATTEMPT_KEY = 'admin_attempts';
+      const LOCKOUT_KEY = 'admin_lockout_until';
+      const API = 'https://sql-toolkit-proxy.amin-p.workers.dev';
+      let _sessionKey = null;
+
+      (function init() {
+            if (sessionStorage.getItem('admin_auth') === 'true' && _sessionKey) showDashboard();
+            enforceLockout();
+      })();
+
+      document.getElementById('admin-pass').addEventListener('keydown', e => {
+            if (e.key === 'Enter') adminLogin();
+      });
+
+      function getAttempts() { return parseInt(localStorage.getItem(ATTEMPT_KEY) || '0', 10); }
+      function getLockout() { return parseInt(localStorage.getItem(LOCKOUT_KEY) || '0', 10); }
+
+      function recordFailure() {
+            const attempts = getAttempts() + 1;
+            localStorage.setItem(ATTEMPT_KEY, attempts);
+            if (attempts >= MAX_ATTEMPTS) {
+                    localStorage.setItem(LOCKOUT_KEY, Date.now() + LOCKOUT_MS);
+                    enforceLockout();
+            }
+            return attempts;
+      }
+
+      function clearFailures() {
+            localStorage.removeItem(ATTEMPT_KEY);
+            localStorage.removeItem(LOCKOUT_KEY);
+      }
+
+      function enforceLockout() {
+            const until = getLockout();
+            if (!until || Date.now() >= until) return false;
+            const btn = document.getElementById('login-btn');
+            const msg = document.getElementById('lockout-msg');
+            btn.disabled = true;
+            msg.style.display = 'block';
+            const timer = setInterval(() => {
+                    const left = Math.ceil((getLockout() - Date.now()) / 1000);
+                    if (left <= 0) {
+                              clearInterval(timer);
+                              btn.disabled = false;
+                              msg.style.display = 'none';
+                              localStorage.removeItem(LOCKOUT_KEY);
+                              localStorage.setItem(ATTEMPT_KEY, '0');
+                    } else {
+                              msg.textContent = 'Too many attempts. Try again in ' + left + 's.';
+                    }
+            }, 1000);
+            msg.textContent = 'Too many attempts. Try again in ' + Math.ceil((until - Date.now()) / 1000) + 's.';
+            return true;
+      }
+
+      async function adminLogin() {
+            if (enforceLockout()) return;
+            const pass = document.getElementById('admin-pass').value;
+            if (!pass) return;
+            const btn = document.getElementById('login-btn');
+            btn.disabled = true;
+            btn.textContent = 'Verifying...';
+            try {
+                    const res = await fetch(API + '/admin/users', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ adminKey: pass })
+                    });
+                    if (res.ok) {
+                              const data = await res.json();
+                              clearFailures();
+                              _sessionKey = pass;
+                              sessionStorage.setItem('admin_auth', 'true');
+                              showDashboard(data.users);
+                    } else {
+                              const attempts = recordFailure();
+                              const errEl = document.getElementById('login-error');
+                              const left = MAX_ATTEMPTS - attempts;
+                              errEl.style.display = 'block';
+                              errEl.textContent = left > 0
+                                ? 'Incorrect password. ' + left + ' attempt' + (left !== 1 ? 's' : '') + ' remaining.'
+                                          : 'Too many failed attempts. You are now locked out.';
+                              document.getElementById('admin-pass').value = '';
+                              document.getElementById('admin-pass').focus();
+                    }
+            } catch (e) {
+                    document.getElementById('login-error').style.display = 'block';
+                    document.getElementById('login-error').textContent = 'Network error. Please try again.';
+            } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'Enter Dashboard →';
+            }
+      }
+
+      function adminLogout() {
+            _sessionKey = null;
+            sessionStorage.removeItem('admin_auth');
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('admin-pass').value = '';
+      }
+
+      function showDashboard(preloadedUsers) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            if (preloadedUsers) renderUsers(preloadedUsers);
+            else loadUsers();
+      }
+
+      async function loadUsers() {
+            if (!_sessionKey) return;
+            document.getElementById('user-tbody').innerHTML = '<tr class="loading-row"><td colspan="5">LOADING...</td></tr>';
+            try {
+                    const res = await fetch(API + '/admin/users', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ adminKey: _sessionKey })
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.error || 'Failed');
+                    renderUsers(data.users);
+            } catch (e) {
+                    document.getElementById('user-tbody').innerHTML = '<tr class="loading-row"><td colspan="5">Error: ' + esc(e.message) + '</td></tr>';
+            }
+      }
+
+      function renderUsers(users) {
+            const today = new Date().toISOString().substring(0, 10);
+            document.getElementById('stat-total').textContent = users.length;
+            document.getElementById('stat-queries').textContent = users.reduce((s, u) => s + (u.uses || 0), 0);
+            document.getElementById('stat-active').textContent = users.filter(u => (u.uses || 0) > 0).length;
+            document.getElementById('stat-today').textContent = users.filter(u => u.createdAt && u.createdAt.startsWith(today)).length;
+            users.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            if (!users.length) {
+                    document.getElementById('user-tbody').innerHTML = '<tr class="loading-row"><td colspan="5">No users yet.</td></tr>';
+                    return;
+            }
+            document.getElementById('user-tbody').innerHTML = users.map(u => {
+                    const pct = Math.round(((u.uses || 0) / 20) * 100);
+                    const date = u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+                    const active = (u.uses || 0) > 0;
+                    return '<tr><td><div class="user-name">' + esc(u.name) + '</div></td><td><div class="user-email">' + esc(u.email) + '</div></td><td><div class="uses-bar-wrap"><div class="uses-bar"><div class="uses-bar-fill" style="width:' + pct + '%"></div></div><span class="uses-num">' + (u.uses || 0) + ' / 20</span></div></td><td><span class="joined-date">' + date + '</span></td><td><span class="badge ' + (active ? 'badge-active' : 'badge-inactive') + '">' + (active ? 'Active' : 'New') + '</span></td></tr>';
+            }).join('');
+      }
+
+      function esc(s) {
+            return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+  </script>
+  </body>
+</html>html>
+  </script></footer></th></th></tr></thead></span>
+    </header></em>
+  </body>
+  </style></title>
+  </head>
