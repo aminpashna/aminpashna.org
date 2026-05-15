@@ -381,6 +381,34 @@ initAuth();
         .replace(/\n/g, '<br>')
         .replace(/^/, '<p class="sql-para">').replace(/$/, '</p>');
     }
+  
+    async function sqlRun(tool) {
+      if (!(await checkLimit())) return;
+      const input = document.getElementById('sql-input-'+tool).value.trim();
+      if (!input) { alert('Please enter a SQL query first.'); return; }
+      const btn = document.getElementById('sql-btn-'+tool);
+      btn.disabled = true; btn.classList.add('loading');
+      let prompt = '';
+      if (tool === 'explain') prompt = `You are a SQL expert. Explain the following SQL query step by step. Format your response exactly like this:\n- Start with one short summary sentence.\n- Then number each clause (1. SELECT, 2. FROM, etc.) with a **bold** clause name followed by a colon and explanation.\n- End with a "Final Result:" line describing what the query returns.\nUse **bold** for clause names. Do not use headers or bullet points, only numbered items.\n\nSQL Query:\n${input}`;
+      else if (tool === 'optimize') prompt = `You are a senior database performance engineer. Analyze this SQL query and respond in exactly this format:\n**Issues Found:**\n1. [issue one]\n2. [issue two]\n\n**Optimized Query:**\n\`\`\`sql\n[rewritten query here]\n\`\`\`\n\n**What Changed:**\n1. [explanation of change one]\n2. [explanation of change two]\n\nUse **bold** for section headers. Number each issue and change.\n\nSQL Query:\n${input}`;
+      else { const from = document.getElementById('sql-from').value; const to = document.getElementById('sql-to').value; prompt = `You are a SQL dialect expert. Convert the following ${from} query to ${to}. Respond in exactly this format:\n**Converted ${to} Query:**\n\`\`\`sql\n[converted query here]\n\`\`\`\n\n**Changes Made:**\n1. [first change with **function/keyword** bolded]\n2. [second change with **function/keyword** bolded]\n\nUse **bold** for section headers and function names.\n\nOriginal ${from} query:\n${input}`; }
+      const start = Date.now();
+      try {
+        const response = await fetch('https://sql-toolkit-proxy.amin-p.workers.dev', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({model:'gpt-4o-mini',max_tokens:1000,messages:[{role:'user',content:prompt}]}) });
+        const ms = Date.now() - start;
+        if (!response.ok) { const err = await response.text(); sqlLogAdd('ERR','['+tool+'] HTTP '+response.status+' — '+err.slice(0,120)+' ('+ms+'ms)'); alert('Error '+response.status+'. Check the request log.'); return; }
+        const data = await response.json();
+        if (data.error) { sqlLogAdd('ERR','['+tool+'] API error: '+data.error.message+' ('+ms+'ms)'); alert('API error: '+data.error.message); return; }
+        const result = data.content?.map(b=>b.text||'').join('') || 'No response received.';
+        await trackUse();
+        sqlLogAdd('OK','['+tool+'] Success — '+result.length+' chars returned ('+ms+'ms)');
+        const out = document.getElementById('sql-output-'+tool);
+        document.getElementById('sql-output-content-'+tool).innerHTML = renderMarkdown(result);
+        out.classList.add('visible');
+        out.scrollIntoView({behavior:'smooth',block:'nearest'});
+      } catch(err) { const ms = Date.now()-start; sqlLogAdd('ERR','['+tool+'] Network error: '+err.message+' ('+ms+'ms)'); alert('Network error: '+err.message); }
+      finally { btn.disabled = false; btn.classList.remove('loading'); }
+    }
   </script>
 </body>
 </html>
