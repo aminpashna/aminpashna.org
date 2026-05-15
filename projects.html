@@ -347,7 +347,7 @@
       const toolSection = document.querySelector('.reveal');
       if (!token) {
         document.getElementById('auth-gate').style.display = 'block';
-        if (toolSection) toolSection.style.display = 'none';
+        document.querySelectorAll('.reveal').forEach(el => el.style.display = 'none');
         return;
       }
       try {
@@ -359,18 +359,18 @@
         if (!res.ok || !data.valid) {
           localStorage.removeItem('sql_token'); localStorage.removeItem('sql_name');
           document.getElementById('auth-gate').style.display = 'block';
-          if (toolSection) toolSection.style.display = 'none';
+          document.querySelectorAll('.reveal').forEach(el => el.style.display = 'none');
           return;
         }
         currentToken = token; currentUses = data.uses || 0;
         updateUserBar(data.name, currentUses);
-        if (toolSection) toolSection.style.display = 'block';
+        document.querySelectorAll('.reveal').forEach(el => { el.style.display = ''; el.classList.add('visible'); });
       } catch(e) {
         currentToken = token;
         document.getElementById('user-bar').style.display = 'flex';
         document.getElementById('user-name').textContent = localStorage.getItem('sql_name') || 'User';
         document.getElementById('usage-remaining').textContent = '';
-        if (toolSection) toolSection.style.display = 'block';
+        document.querySelectorAll('.reveal').forEach(el => { el.style.display = ''; el.classList.add('visible'); });
       }
     }
 
