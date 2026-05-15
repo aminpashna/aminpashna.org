@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects — Amin Pashna</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="shortcut icon" href="favicon.ico" />
   <link rel="shortcut icon" href="favicon.ico" />
   <link rel="stylesheet" href="style.css" />
   <style>
@@ -146,6 +144,7 @@
   </style>
 </head>
 <body>
+<div id="auth-overlay" style="display:none;position:fixed;inset:0;background:rgba(247,245,240,0.98);z-index:9999;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;"><p style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#b5863a;margin-bottom:.8rem;">Access Required</p><h2 style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;margin-bottom:.8rem;color:#0f0f0f;">Sign in to use the <em style="font-style:italic;color:#b5863a;">SQL Toolkit</em></h2><p style="font-size:1rem;color:#3a3a3a;max-width:42ch;margin:0 auto 2rem;line-height:1.7;">Create a free account to access the Explain, Optimize and Convert tools.</p><a href="login.html" style="font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;background:#0f0f0f;color:#f7f5f0;padding:.9rem 2rem;text-decoration:none;display:inline-block;">Sign In / Register →</a></div>
   <nav id="nav">
     <a href="index.html" class="nav-logo">Amin <span>Pashna</span></a>
     <ul class="nav-links">
@@ -188,40 +187,36 @@
         <p class="project-desc">Three tools in one: explain any SQL query in plain English, get optimization suggestions for slow queries, and convert between SQL dialects — all powered by AI. Built, deployed, and maintained by me.</p>
       </div>
 
-      <!-- AUTH GATE - shown when not logged in -->
-      <div id="auth-gate" style="display:none; border: 1px solid var(--rule); background: var(--white); padding: 3rem; text-align: center; margin-bottom: 2rem;">
-        <p style="font-family:var(--font-mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;">Access Required</p>
-        <h3 style="font-family:var(--font-display);font-size:2rem;font-weight:300;margin-bottom:.8rem;">Sign in to use the <em style="font-style:italic;color:var(--accent)">SQL Toolkit</em></h3>
-        <p style="font-size:1rem;color:var(--ink-soft);max-width:42ch;margin:0 auto 2rem;line-height:1.7;">Create a free account to get unlimited access to the Explain, Optimize, and Convert tools.</p>
-        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-          <a href="login.html" class="btn btn-primary">Sign In / Register →</a>
-        </div>
-      </div>
-
-      <!-- USER BAR - shown when logged in -->
-      <div id="user-bar" class="usage-bar reveal" style="display:none;">
+      <!-- USAGE BAR -->
+      <div class="usage-bar reveal">
         <div class="usage-bar-left">
-          <span class="usage-label">Welcome, <span id="user-name"></span></span>
-          <div class="usage-dots" id="usage-dots"></div>
-        </div>
-        <div style="display:flex;align-items:center;gap:1rem;">
-          <span class="usage-remaining" id="usage-remaining"></span>
-          <button onclick="logout()" style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);background:none;border:none;cursor:pointer;">Sign Out</button>
-        </div>
-      </div>
-
-      <!-- GATE MODAL - shown when limit reached -->
-      <div class="gate-overlay" id="gate-overlay">
-        <div class="gate-modal">
-          <p class="gate-eyebrow">Usage limit reached</p>
-          <h2 class="gate-title">You’ve used all your <em>queries</em></h2>
-          <p class="gate-desc">You’ve reached your current usage limit. Get in touch to discuss expanded access.</p>
-          <div class="gate-actions">
-            <a href="contact.html" class="gate-btn-primary">Get in Touch →</a>
-            <button class="gate-btn-secondary" onclick="document.getElementById('gate-overlay').classList.remove('visible')">Close</button>
+          <span class="usage-label">Free uses</span>
+          <div class="usage-dots" id="usage-dots">
+            <div class="usage-dot" id="dot-1"></div>
+            <div class="usage-dot" id="dot-2"></div>
+            <div class="usage-dot" id="dot-3"></div>
+            <div class="usage-dot" id="dot-4"></div>
+            <div class="usage-dot" id="dot-5"></div>
           </div>
         </div>
+        <span class="usage-remaining" id="usage-remaining">5 remaining</span>
       </div>
+
+      <!-- GATE MODAL -->
+      <div class="gate-overlay" id="gate-overlay">
+        <div class="gate-modal">
+          <p class="gate-eyebrow">Free limit reached</p>
+          <h2 class="gate-title">You've used your <em>5 free</em> queries</h2>
+          <p class="gate-desc">Thank you for trying the SQL Toolkit! To continue using the Explain, Optimize, and Convert tools, get in touch — I'd love to hear what you're working on.</p>
+          <div class="gate-actions">
+            <a href="contact.html" class="gate-btn-primary">Get in Touch →</a>
+            <button class="gate-btn-secondary" onclick="resetLimit()">Reset (Demo Mode)</button>
+          </div>
+          <p class="gate-note">This is a personal project — limit resets on page refresh in demo mode.</p>
+        </div>
+      </div>
+
+      <div id="user-bar" class="usage-bar" style="display:none;"><div class="usage-bar-left"><span class="usage-label">Welcome, <span id="user-name"></span></span><div class="usage-dots" id="usage-dots"></div></div><div style="display:flex;align-items:center;gap:1rem;"><span class="usage-remaining" id="usage-remaining"></span><button onclick="logout()" style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);background:none;border:none;cursor:pointer;">Sign Out</button></div></div>
 
       <div class="reveal">
         <div class="sql-tabs">
@@ -316,206 +311,13 @@
     const io = new IntersectionObserver(entries => entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*100); }), {threshold:.1});
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    const API = 'https://sql-toolkit-proxy.amin-p.workers.dev';
-    const LIMIT = 20;
-    let currentToken = null;
-    let currentUses = 0;
-
-    function logout() {
-      localStorage.removeItem('sql_token');
-      localStorage.removeItem('sql_name');
-      window.location.reload();
-    }
-
-    function updateUserBar(name, uses) {
-      document.getElementById('user-name').textContent = name;
-      const remaining = Math.max(0, LIMIT - uses);
-      document.getElementById('usage-remaining').textContent = remaining + ' queries remaining';
-      const dotsEl = document.getElementById('usage-dots');
-      dotsEl.innerHTML = '';
-      for (let i = 1; i <= Math.min(LIMIT, 10); i++) {
-        const dot = document.createElement('div');
-        dot.className = 'usage-dot' + (i <= Math.min(uses, 10) ? (i === 10 ? ' last' : ' used') : '');
-        dotsEl.appendChild(dot);
-      }
-      document.getElementById('user-bar').style.display = 'flex';
-      document.querySelector('.reveal').style.display = 'block';
-    }
-
-    async function initAuth() {
-      const token = localStorage.getItem('sql_token');
-      const toolSection = document.querySelector('.reveal');
-      if (!token) {
-        document.getElementById('auth-gate').style.display = 'block';
-        document.querySelectorAll('.reveal').forEach(el => el.style.display = 'none');
-        return;
-      }
-      try {
-        const res = await fetch(API + '/auth/verify', {
-          method: 'POST', headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({token})
-        });
-        const data = await res.json();
-        if (!res.ok || !data.valid) {
-          localStorage.removeItem('sql_token'); localStorage.removeItem('sql_name');
-          document.getElementById('auth-gate').style.display = 'block';
-          document.querySelectorAll('.reveal').forEach(el => el.style.display = 'none');
-          return;
-        }
-        currentToken = token; currentUses = data.uses || 0;
-        updateUserBar(data.name, currentUses);
-        document.querySelectorAll('.reveal').forEach(el => { el.style.display = ''; el.classList.add('visible'); });
-      } catch(e) {
-        currentToken = token;
-        document.getElementById('user-bar').style.display = 'flex';
-        document.getElementById('user-name').textContent = localStorage.getItem('sql_name') || 'User';
-        document.getElementById('usage-remaining').textContent = '';
-        document.querySelectorAll('.reveal').forEach(el => { el.style.display = ''; el.classList.add('visible'); });
-      }
-    }
-
-    async function checkLimit() {
-      if (!currentToken) { window.location.href = 'login.html'; return false; }
-      if (currentUses >= LIMIT) {
-        document.getElementById('gate-overlay').classList.add('visible');
-        return false;
-      }
-      return true;
-    }
-
-    async function trackUse() {
-      if (!currentToken) return;
-      try {
-        const res = await fetch(API + '/auth/use', {
-          method: 'POST', headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({token: currentToken})
-        });
-        const data = await res.json();
-        if (data.uses !== undefined) {
-          currentUses = data.uses;
-          updateUserBar(localStorage.getItem('sql_name') || 'User', currentUses);
-        }
-      } catch(e) {}
-    }
-
-    initAuth();
-      explain: [`SELECT name, email FROM users WHERE active = 1;`,`SELECT u.name, COUNT(o.id) AS order_count\nFROM users u\nLEFT JOIN orders o ON u.id = o.user_id\nWHERE u.created_at > '2024-01-01'\nGROUP BY u.name\nHAVING COUNT(o.id) > 5\nORDER BY order_count DESC;`,`WITH ranked AS (\n  SELECT employee_id, salary, department_id,\n    RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS salary_rank\n  FROM employees\n)\nSELECT * FROM ranked WHERE salary_rank <= 3;`,`SELECT name FROM products\nWHERE category_id IN (\n  SELECT id FROM categories WHERE active = 1\n);`],
-      optimize: [`SELECT * FROM orders WHERE status = 'pending';`,`SELECT * FROM orders o\nWHERE (SELECT COUNT(*) FROM order_items i WHERE i.order_id = o.id) > 3;`,`SELECT * FROM employees WHERE YEAR(hire_date) = 2023;`],
-      convert: [`SELECT TOP 10 name FROM products ORDER BY price DESC;`,`SELECT name, GETDATE() as today FROM employees;`,`SELECT name, ISNULL(phone, 'N/A') FROM contacts;`]
-    };
-
-    function sqlExample(tool, idx) {
-      document.getElementById(`sql-input-${tool}`).value = sqlExamples[tool][idx];
-      if (tool === 'convert') { document.getElementById('sql-from').value = 'SQL Server'; document.getElementById('sql-to').value = 'PostgreSQL'; }
-    }
-    function sqlClear(tool) { document.getElementById(`sql-input-${tool}`).value = ''; document.getElementById(`sql-output-${tool}`).classList.remove('visible'); }
-    function sqlCopy(tool) {
-      const text = document.getElementById(`sql-output-content-${tool}`).innerText;
-      navigator.clipboard.writeText(text).then(() => { const btn = document.querySelector(`#sql-output-${tool} .sql-btn-copy`); btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 1500); });
-    }
-    document.querySelectorAll('.sql-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.sql-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.sql-panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById(`sql-panel-${tab.dataset.tool}`).classList.add('active');
-      });
-    });
-    function sqlLogAdd(status, message) {
-      const entries = document.getElementById('sql-log-entries');
-      const empty = document.getElementById('sql-log-empty');
-      if (empty) empty.remove();
-      const now = new Date();
-      const time = now.toLocaleTimeString('en-US', { hour12: false });
-      const entry = document.createElement('div');
-      entry.className = 'sql-log-entry';
-      entry.innerHTML = `<span class="sql-log-time">${time}</span><span class="sql-log-status ${status === 'OK' ? 'ok' : 'err'}">${status}</span><span class="sql-log-msg">${message}</span>`;
-      entries.prepend(entry);
-    }
-    function sqlLogClear() { document.getElementById('sql-log-entries').innerHTML = '<div class="sql-log-empty" id="sql-log-empty">No requests yet.</div>'; }
-    function renderMarkdown(text) {
-      return text
-        // Fenced code blocks
-        .replace(/```[\w]*\n?([\s\S]*?)```/g, (_,code) =>
-          `<pre class="sql-code-block">${code.trim().replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`)
-        // Bold **text**
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        // Inline `code`
-        .replace(/`([^`]+)`/g, '<code style="font-family:var(--font-mono);background:var(--paper-warm);padding:.1em .3em;font-size:.85em;">$1</code>')
-        // Numbered list items (must come before bullet)
-        .replace(/^(\d+)\.\s+(.+)$/gm, '<div class="sql-list-item"><span class="sql-list-num">$1</span><span>$2</span></div>')
-        // Bullet / dash list items
-        .replace(/^[-•]\s+(.+)$/gm, '<div class="sql-bullet-item">$1</div>')
-        // Double newlines = paragraph break
-        .replace(/\n{2,}/g, '</p><p class="sql-para">')
-        // Single newlines = line break
-        .replace(/\n/g, '<br>')
-        // Wrap everything
-        .replace(/^/, '<p class="sql-para">').replace(/$/, '</p>');
-    }
-    async function sqlRun(tool) {
-      if (!checkLimit()) return;
-      const input = document.getElementById(`sql-input-${tool}`).value.trim();
-      if (!input) { alert('Please enter a SQL query first.'); return; }
-      const btn = document.getElementById(`sql-btn-${tool}`);
-      btn.disabled = true; btn.classList.add('loading');
-      let prompt = '';
-      if (tool === 'explain') prompt = `You are a SQL expert. Explain the following SQL query step by step. Format your response exactly like this:
-- Start with one short summary sentence.
-- Then number each clause (1. SELECT, 2. FROM, etc.) with a bold clause name followed by a colon and explanation.
-- End with a "Final Result:" line describing what the query returns.
-Use **bold** for clause names. Do not use headers or bullet points, only numbered items.
-
-SQL Query:\n${input}`;
-      else if (tool === 'optimize') prompt = `You are a senior database performance engineer. Analyze this SQL query and respond in exactly this format:
-**Issues Found:**
-1. [issue one]
-2. [issue two]
-
-**Optimized Query:**
-\`\`\`sql
-[rewritten query here]
-\`\`\`
-
-**What Changed:**
-1. [explanation of change one]
-2. [explanation of change two]
-
-Use **bold** for section headers. Number each issue and change.
-
-SQL Query:\n${input}`;
-      else { const from = document.getElementById('sql-from').value; const to = document.getElementById('sql-to').value; prompt = `You are a SQL dialect expert. Convert the following ${from} query to ${to}. Respond in exactly this format:
-**Converted ${to} Query:**
-\`\`\`sql
-[converted query here]
-\`\`\`
-
-**Changes Made:**
-1. [first change with **function/keyword** bolded]
-2. [second change with **function/keyword** bolded]
-
-Use **bold** for section headers and function names.
-
-Original ${from} query:\n${input}`; }
-      const start = Date.now();
-      try {
-        const response = await fetch('https://sql-toolkit-proxy.amin-p.workers.dev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'gpt-4o-mini', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] }) });
-        const ms = Date.now() - start;
-        if (!response.ok) { const errText = await response.text(); sqlLogAdd('ERR', `[${tool}] HTTP ${response.status} — ${errText.slice(0,120)} (${ms}ms)`); alert(`Error ${response.status}. Check the request log for details.`); return; }
-        const data = await response.json();
-        if (data.error) { sqlLogAdd('ERR', `[${tool}] API error: ${data.error.message} (${ms}ms)`); alert(`API error: ${data.error.message}`); return; }
-        const result = data.content?.map(b => b.text || '').join('') || 'No response received.';
-        // Increment usage counter
-        setUses(getUses() + 1);
-        updateUsageBar();
-        sqlLogAdd('OK', `[${tool}] Success — ${result.length} chars returned (${ms}ms)`);
-        const out = document.getElementById(`sql-output-${tool}`);
-        document.getElementById(`sql-output-content-${tool}`).innerHTML = renderMarkdown(result);
-        out.classList.add('visible');
-        out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      } catch (err) { const ms = Date.now() - start; sqlLogAdd('ERR', `[${tool}] Network error: ${err.message} (${ms}ms)`); alert(`Network error: ${err.message}`); }
-      finally { btn.disabled = false; btn.classList.remove('loading'); }
-    }
+    const API='https://sql-toolkit-proxy.amin-p.workers.dev';const LIMIT=20;let currentToken=null,currentUses=0;
+function logout(){localStorage.removeItem('sql_token');localStorage.removeItem('sql_name');window.location.reload();}
+function updateUserBar(n,u){document.getElementById('user-name').textContent=n;document.getElementById('usage-remaining').textContent=Math.max(0,LIMIT-u)+' queries remaining';document.getElementById('user-bar').style.display='flex';}
+async function initAuth(){const t=localStorage.getItem('sql_token');if(!t){document.getElementById('auth-overlay').style.display='flex';return;}try{const r=await fetch(API+'/auth/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:t})});const d=await r.json();if(!r.ok||!d.valid){localStorage.removeItem('sql_token');localStorage.removeItem('sql_name');document.getElementById('auth-overlay').style.display='flex';return;}currentToken=t;currentUses=d.uses||0;updateUserBar(d.name,currentUses);}catch(e){currentToken=t;document.getElementById('user-bar').style.display='flex';document.getElementById('user-name').textContent=localStorage.getItem('sql_name')||'';}}
+async function checkLimit(){if(!currentToken){window.location.href='login.html';return false;}if(currentUses>=LIMIT){document.getElementById('gate-overlay').classList.add('visible');return false;}return true;}
+async function trackUse(){if(!currentToken)return;try{const r=await fetch(API+'/auth/use',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:currentToken})});const d=await r.json();if(d.uses!==undefined){currentUses=d.uses;updateUserBar(localStorage.getItem('sql_name')||'',currentUses);}}catch(e){}}
+initAuth();
   </script>
 </body>
 </html>
