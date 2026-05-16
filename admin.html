@@ -162,11 +162,14 @@ footer { margin-top: 4rem; padding: 1.5rem 2rem; border-top: 1px solid var(--rul
     btn.disabled = true; btn.textContent = 'Verifying...';
     try {
       var res = await fetch(API + '/admin/users', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({adminKey:pass}) });
+      var data = await res.json();
       if (res.ok) {
-        var data = await res.json();
-        clearFailures(); _sessionKey = pass;
+        clearFailures();
+        _sessionKey = pass;
         sessionStorage.setItem('admin_auth','true');
-        showDashboard(data.users);
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        renderUsers(Array.isArray(data.users) ? data.users : []);
       } else {
         var att = recordFailure();
         var left = MAX_ATTEMPTS - att;
@@ -188,20 +191,17 @@ footer { margin-top: 4rem; padding: 1.5rem 2rem; border-top: 1px solid var(--rul
     document.getElementById('admin-pass').value = '';
   }
 
-  function showDashboard(users) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    if (users) renderUsers(users); else loadUsers();
-  }
-
   async function loadUsers() {
-    if (!_sessionKey) return;
+    if (!_sessionKey) {
+      document.getElementById('user-tbody').innerHTML = '<tr class="loading-row"><td colspan="5">Session expired. Please sign out and log in again.</td></tr>';
+      return;
+    }
     document.getElementById('user-tbody').innerHTML = '<tr class="loading-row"><td colspan="5">LOADING...</td></tr>';
     try {
       var res = await fetch(API + '/admin/users', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({adminKey:_sessionKey}) });
       var data = await res.json();
       if (!res.ok) throw new Error(data.error||'Failed');
-      renderUsers(data.users);
+      renderUsers(Array.isArray(data.users) ? data.users : []);
     } catch(e) { document.getElementById('user-tbody').innerHTML = '<tr class="loading-row"><td colspan="5">Error: ' + esc(e.message) + '</td></tr>'; }
   }
 
@@ -215,7 +215,7 @@ footer { margin-top: 4rem; padding: 1.5rem 2rem; border-top: 1px solid var(--rul
     if (!users.length) { document.getElementById('user-tbody').innerHTML='<tr class="loading-row"><td colspan="5">No users yet.</td></tr>'; return; }
     document.getElementById('user-tbody').innerHTML = users.map(function(u) {
       var pct=Math.round(((u.uses||0)/20)*100);
-      var date=u.createdAt?new Date(u.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'\u2014';
+      var date=u.createdAt?new Date(u.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
       var active=(u.uses||0)>0;
       return '<tr><td><div class="user-name">'+esc(u.name)+'</div></td><td><div class="user-email">'+esc(u.email)+'</div></td><td><div class="uses-bar-wrap"><div class="uses-bar"><div class="uses-bar-fill" style="width:'+pct+'%"></div></div><span class="uses-num">'+(u.uses||0)+' / 20</span></div></td><td><span class="joined-date">'+date+'</span></td><td><span class="badge '+(active?'badge-active':'badge-inactive')+'">'+(active?'Active':'New')+'</span></td></tr>';
     }).join('');
