@@ -1,0 +1,50 @@
+# Amin Pashna
+
+> Engineer at Microsoft based in Seattle, Washington. Database and cloud specialist with 14+ years of experience in SQL Server, Microsoft Azure, and data engineering. Holds 34 professional certifications.
+
+## About
+
+Amin Pashna is a database and cloud engineer at Microsoft, specializing in SQL Server administration and development, large-scale database systems, and cloud data warehousing on Microsoft Azure. He has over 14 years of professional experience building mission-critical, high-availability data systems for global organizations.
+
+His expertise covers database replication, mirroring, log shipping, query performance optimization, MongoDB administration, and cloud data warehousing. He has architected replication pipelines across 20+ global servers and managed SQL Server environments spanning versions 2005 through 2016, including SQL Server on Linux.
+
+He is also actively expanding into AI engineering, with certifications in Azure AI, Generative AI, Large Language Models, and Agentic AI architectures.
+
+## Experience
+
+- **Microsoft** — Engineer (April 2021 – Present), Seattle, WA. Working on large-scale data and engineering initiatives, contributing to cloud infrastructure and database systems.
+- **Universal Electronics** — Senior Data Engineer (November 2019 – March 2021). Designed and maintained data pipelines for global consumer electronics operations.
+- **iHerb Inc.** — Senior Database Administrator (April 2011 – November 2019), 8 years 8 months. Managed SQL Server environments across versions 2005–2016, architected replication across 20+ global servers, implemented HA via mirroring and log shipping, and administered MongoDB for high-volume NoSQL workloads.
+
+## Education
+
+- Islamic Azad University
+
+## Specialties
+
+- **Database:** SQL Server, MongoDB, T-SQL, Query Optimization, Replication, Mirroring, Log Shipping
+- **Cloud & Azure:** Microsoft Azure, Azure Storage, Cloud Data Warehousing, Azure AI
+- **Engineering:** Data Engineering, High Availability, Disaster Recovery, Performance Tuning, ETL Pipelines
+- **Development & AI:** JavaScript, Generative AI, Large Language Models, Agentic AI, SQL Server on Linux
+
+## Notable Certifications
+
+- Microsoft Certified: Azure AI Fundamentals (Oct 2025)
+- Azure Storage Essential Training (Oct 2025)
+- Manage Storage in Azure (Oct 2025)
+- Agentic AI Solution Communication Architectures (2025)
+- Generative AI: Working with Large Language Models (2025)
+- The AI-Driven Software Developer: Optimize, Innovate, Transform (2025)
+- 34 total professional certifications across Microsoft and LinkedIn Learning
+
+## Endorsement
+
+"Amin is very smart and articulate. He knows SQL Server better than anyone that I know. He is the most efficient and effective DBA that I have had the pleasure to work with. Amin's true strength is working on projects that are cutting edge. I recommend Amin to anyone looking for a top level SQL Server DBA and/or Developer."
+— Robert Henderson, Sr. Database Administrator/Developer (January 2019)
+
+## Contact
+
+- Website: https://aminpashna.org
+- LinkedIn: https://www.linkedin.com/in/amin-pashna-62b84ba1/
+- GitHub: https://github.com/aminpashna
+- Location: Seattle, Washington, United States

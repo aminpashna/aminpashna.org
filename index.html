@@ -1,262 +1,354 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Amin Pashna — Engineer at Microsoft</title>
-  <meta name="description" content="Database engineer and cloud specialist at Microsoft. 14+ years building scalable data systems." />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    html, body {
-      height: 100%;
-      overflow: hidden;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Amin Pashna — SQL Server & Azure Engineer at Microsoft | Seattle</title>
+<meta name="description" content="Amin Pashna — Engineer at Microsoft in Seattle. 14+ years of SQL Server, Azure, and data engineering experience. Former Senior DBA at iHerb and Senior Data Engineer at Universal Electronics." />
+<meta name="author" content="Amin Pashna" />
+<link rel="canonical" href="https://aminpashna.org/" />
 
-    .page {
-      height: calc(100vh - var(--nav-h));
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr auto;
-    }
+<!-- Open Graph -->
+<meta property="og:type" content="profile" />
+<meta property="og:site_name" content="Amin Pashna" />
+<meta property="og:title" content="Amin Pashna — Engineer at Microsoft" />
+<meta property="og:description" content="Database engineer and cloud specialist with 14+ years building scalable data systems at Microsoft, iHerb, and Universal Electronics." />
+<meta property="og:url" content="https://aminpashna.org/" />
+<meta property="og:image" content="https://aminpashna.org/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Amin Pashna — Engineer at Microsoft" />
+<meta property="profile:first_name" content="Amin" />
+<meta property="profile:last_name" content="Pashna" />
 
-    /* ── LEFT PANEL ── */
-    .home-left {
-      padding: 3.5rem 3rem 2.5rem 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border-right: 1px solid var(--rule);
-      position: relative;
-      overflow: hidden;
-    }
-    .home-left-bg {
-      position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 80% 60% at 10% 90%, rgba(181,134,58,.06) 0%, transparent 70%);
-    }
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Amin Pashna — Engineer at Microsoft" />
+<meta name="twitter:description" content="Database engineer and cloud specialist with 14+ years building scalable data systems at Microsoft, iHerb, and Universal Electronics." />
+<meta name="twitter:image" content="https://aminpashna.org/og-image.jpg" />
 
-    .home-eyebrow {
-      font-family: var(--font-mono); font-size: .65rem;
-      letter-spacing: .22em; text-transform: uppercase;
-      color: var(--accent); display: flex; align-items: center; gap: .8rem;
-      opacity: 0; animation: fadeUp .7s .1s forwards;
-    }
-    .home-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+<!-- JSON-LD: Person -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Amin Pashna",
+  "url": "https://aminpashna.org",
+  "image": "https://aminpashna.org/og-image.jpg",
+  "jobTitle": "Engineer",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Microsoft",
+    "url": "https://www.microsoft.com"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Seattle",
+    "addressRegion": "WA",
+    "addressCountry": "US"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Islamic Azad University"
+  },
+  "knowsAbout": [
+    "SQL Server", "Microsoft Azure", "Data Engineering",
+    "Database Replication", "Database Mirroring", "Log Shipping",
+    "MongoDB", "T-SQL", "Query Optimization", "Cloud Data Warehousing",
+    "Azure AI", "Generative AI", "Agentic AI", "Large Language Models",
+    "High Availability", "Disaster Recovery"
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/in/amin-pashna-62b84ba1/",
+    "https://github.com/aminpashna"
+  ],
+  "description": "Database engineer and cloud specialist with 14+ years of experience building scalable, high-performance data systems at Microsoft, iHerb, and Universal Electronics."
+}
+</script>
 
-    .home-name {
-      font-family: var(--font-display);
-      font-size: clamp(3.8rem, 6.5vw, 7rem);
-      font-weight: 300; line-height: .95;
-      letter-spacing: -.02em; color: var(--ink);
-      opacity: 0; animation: fadeUp .9s .2s forwards;
-    }
-    .home-name em { font-style: italic; color: var(--accent); display: block; }
-
-    .home-tagline {
-      font-size: 1rem; color: var(--ink-soft);
-      max-width: 38ch; line-height: 1.7;
-      opacity: 0; animation: fadeUp .9s .35s forwards;
-    }
-
-    .home-cta {
-      display: flex; gap: .8rem; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp .9s .5s forwards;
-    }
-
-    /* ── RIGHT PANEL ── */
-    .home-right {
-      display: grid;
-      grid-template-rows: 1fr 1fr 1fr;
-      overflow: hidden;
-    }
-
-    .home-card {
-      padding: 1.8rem 2.2rem;
-      border-bottom: 1px solid var(--rule);
-      display: flex; flex-direction: column; justify-content: space-between;
-      text-decoration: none; color: inherit;
-      position: relative; overflow: hidden;
-      transition: background .25s;
-      opacity: 0; animation: fadeIn .8s forwards;
-    }
-    .home-card:nth-child(1) { animation-delay: .3s; }
-    .home-card:nth-child(2) { animation-delay: .45s; }
-    .home-card:nth-child(3) { animation-delay: .6s; border-bottom: none; }
-    .home-card:hover { background: var(--paper-warm); }
-    .home-card::after {
-      content: '→'; position: absolute;
-      right: 1.5rem; bottom: 1.5rem;
-      font-size: 1.1rem; color: var(--rule);
-      transition: color .2s, right .2s;
-    }
-    .home-card:hover::after { color: var(--accent); right: 1.2rem; }
-
-    .home-card-label {
-      font-family: var(--font-mono); font-size: .6rem;
-      letter-spacing: .16em; text-transform: uppercase; color: var(--accent);
-    }
-    .home-card-title {
-      font-family: var(--font-display); font-size: 1.6rem;
-      font-weight: 400; color: var(--ink); line-height: 1.15;
-    }
-    .home-card-sub {
-      font-family: var(--font-mono); font-size: .68rem;
-      color: var(--ink-muted); max-width: 30ch; line-height: 1.5;
-    }
-
-    /* ── BOTTOM BAR ── */
-    .home-bottom {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      border-top: 1px solid var(--rule);
-      background: var(--paper-warm);
-      opacity: 0; animation: fadeUp .8s .7s forwards;
-    }
-    .home-stat {
-      padding: 1rem 1.2rem;
-      border-right: 1px solid var(--rule);
-      display: flex; flex-direction: column; gap: .2rem;
-    }
-    .home-stat:last-child { border-right: none; }
-    .home-stat-num {
-      font-family: var(--font-display); font-size: 1.5rem;
-      font-weight: 600; color: var(--ink); line-height: 1;
-    }
-    .home-stat-num em { font-style: normal; color: var(--accent); }
-    .home-stat-label {
-      font-family: var(--font-mono); font-size: .55rem;
-      letter-spacing: .1em; text-transform: uppercase; color: var(--ink-muted);
-      line-height: 1.3;
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      html, body { overflow: auto; }
-      .page {
-        height: auto;
-        overflow: visible;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
+<!-- JSON-LD: FAQ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Who is Amin Pashna?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Amin Pashna is a database and cloud engineer at Microsoft, based in Seattle, Washington. He has 14+ years of experience specializing in SQL Server, Microsoft Azure, and large-scale data engineering."
       }
-      .home-left {
-        padding: 2.5rem 1.5rem;
-        border-right: none;
-        border-bottom: 1px solid var(--rule);
-        gap: 1.8rem;
+    },
+    {
+      "@type": "Question",
+      "name": "Where does Amin Pashna work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Amin Pashna has worked at Microsoft as an Engineer since April 2021. Previously, he was a Senior Data Engineer at Universal Electronics (2019-2021) and Senior Database Administrator at iHerb Inc. for nearly 9 years (2011-2019)."
       }
-      .home-right { grid-template-rows: repeat(3, auto); }
-      .home-card { padding: 1.4rem 1.5rem; min-height: 120px; }
-      .home-bottom {
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(2, auto);
+    },
+    {
+      "@type": "Question",
+      "name": "What are Amin Pashna's technical specialties?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Amin specializes in SQL Server administration and development, database replication, mirroring, log shipping, query performance optimization, MongoDB, and Microsoft Azure cloud data warehousing. He also works with Generative AI and Agentic AI architectures."
       }
-      .home-stat:nth-child(4) { border-right: none; }
-      .home-stat:nth-child(n+5) { border-top: 1px solid var(--rule); }
-      .home-stat { padding: .8rem 1rem; }
-      .home-stat-num { font-size: 1.2rem; }
+    },
+    {
+      "@type": "Question",
+      "name": "How many years of experience does Amin Pashna have?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Amin Pashna has over 14 years of professional experience in database engineering and cloud infrastructure, and holds 34 professional certifications."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I contact Amin Pashna?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can use the contact form at aminpashna.org/contact.html or connect via LinkedIn at linkedin.com/in/amin-pashna-62b84ba1."
+      }
     }
-  </style>
+  ]
+}
+</script>
+<link rel="icon" type="image/x-icon" href="favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" href="style.css" />
+<style>
+html, body {
+height: 100%;
+overflow: hidden;
+}
+.page {
+height: calc(100vh - var(--nav-h));
+overflow: hidden;
+display: grid;
+grid-template-columns: 1fr 1fr;
+grid-template-rows: 1fr auto;
+}
+/* ── LEFT PANEL ── */
+.home-left {
+padding: 3.5rem 3rem 2.5rem 4rem;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+border-right: 1px solid var(--rule);
+position: relative;
+overflow: hidden;
+}
+.home-left-bg {
+position: absolute; inset: 0; pointer-events: none;
+background: radial-gradient(ellipse 80% 60% at 10% 90%, rgba(181,134,58,.06) 0%, transparent 70%);
+}
+.home-eyebrow {
+font-family: var(--font-mono); font-size: .65rem;
+letter-spacing: .22em; text-transform: uppercase;
+color: var(--accent); display: flex; align-items: center; gap: .8rem;
+opacity: 0; animation: fadeUp .7s .1s forwards;
+}
+.home-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+.home-name {
+font-family: var(--font-display);
+font-size: clamp(3.8rem, 6.5vw, 7rem);
+font-weight: 300; line-height: .95;
+letter-spacing: -.02em; color: var(--ink);
+opacity: 0; animation: fadeUp .9s .2s forwards;
+}
+.home-name em { font-style: italic; color: var(--accent); display: block; }
+.home-tagline {
+font-size: 1rem; color: var(--ink-soft);
+max-width: 38ch; line-height: 1.7;
+opacity: 0; animation: fadeUp .9s .35s forwards;
+}
+.home-cta {
+display: flex; gap: .8rem; flex-wrap: wrap;
+opacity: 0; animation: fadeUp .9s .5s forwards;
+}
+/* ── RIGHT PANEL ── */
+.home-right {
+display: grid;
+grid-template-rows: 1fr 1fr 1fr;
+overflow: hidden;
+}
+.home-card {
+padding: 1.8rem 2.2rem;
+border-bottom: 1px solid var(--rule);
+display: flex; flex-direction: column; justify-content: space-between;
+text-decoration: none; color: inherit;
+position: relative; overflow: hidden;
+transition: background .25s;
+opacity: 0; animation: fadeIn .8s forwards;
+}
+.home-card:nth-child(1) { animation-delay: .3s; }
+.home-card:nth-child(2) { animation-delay: .45s; }
+.home-card:nth-child(3) { animation-delay: .6s; border-bottom: none; }
+.home-card:hover { background: var(--paper-warm); }
+.home-card::after {
+content: '→'; position: absolute;
+right: 1.5rem; bottom: 1.5rem;
+font-size: 1.1rem; color: var(--rule);
+transition: color .2s, right .2s;
+}
+.home-card:hover::after { color: var(--accent); right: 1.2rem; }
+.home-card-label {
+font-family: var(--font-mono); font-size: .6rem;
+letter-spacing: .16em; text-transform: uppercase; color: var(--accent);
+}
+.home-card-title {
+font-family: var(--font-display); font-size: 1.6rem;
+font-weight: 400; color: var(--ink); line-height: 1.15;
+}
+.home-card-sub {
+font-family: var(--font-mono); font-size: .68rem;
+color: var(--ink-muted); max-width: 30ch; line-height: 1.5;
+}
+/* ── BOTTOM BAR ── */
+.home-bottom {
+grid-column: 1 / -1;
+display: grid;
+grid-template-columns: repeat(8, 1fr);
+border-top: 1px solid var(--rule);
+background: var(--paper-warm);
+opacity: 0; animation: fadeUp .8s .7s forwards;
+}
+.home-stat {
+padding: 1rem 1.2rem;
+border-right: 1px solid var(--rule);
+display: flex; flex-direction: column; gap: .2rem;
+}
+.home-stat:last-child { border-right: none; }
+.home-stat-num {
+font-family: var(--font-display); font-size: 1.5rem;
+font-weight: 600; color: var(--ink); line-height: 1;
+}
+.home-stat-num em { font-style: normal; color: var(--accent); }
+.home-stat-label {
+font-family: var(--font-mono); font-size: .55rem;
+letter-spacing: .1em; text-transform: uppercase; color: var(--ink-muted);
+line-height: 1.3;
+}
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+html, body { overflow: auto; }
+.page {
+height: auto;
+overflow: visible;
+grid-template-columns: 1fr;
+grid-template-rows: auto;
+}
+.home-left {
+padding: 2.5rem 1.5rem;
+border-right: none;
+border-bottom: 1px solid var(--rule);
+gap: 1.8rem;
+}
+.home-right { grid-template-rows: repeat(3, auto); }
+.home-card { padding: 1.4rem 1.5rem; min-height: 120px; }
+.home-bottom {
+grid-template-columns: repeat(4, 1fr);
+grid-template-rows: repeat(2, auto);
+}
+.home-stat:nth-child(4) { border-right: none; }
+.home-stat:nth-child(n+5) { border-top: 1px solid var(--rule); }
+.home-stat { padding: .8rem 1rem; }
+.home-stat-num { font-size: 1.2rem; }
+}
+</style>
 </head>
 <body>
-  <nav id="nav">
-    <a href="index.html" class="nav-logo">Amin <span>Pashna</span></a>
-    <ul class="nav-links">
-      <li><a href="about.html">About</a></li>
-      <li><a href="experience.html">Experience</a></li>
-      <li><a href="skills.html">Skills</a></li>
-      <li><a href="projects.html">Projects</a></li>
-      <li><a href="certifications.html">Certs</a></li>
-      <li><a href="contact.html" class="nav-cta">Contact</a></li>
-    </ul>
-  </nav>
-  <button class="nav-burger" id="burger" aria-label="Open menu"><span></span><span></span><span></span></button>
-  <div class="nav-drawer" id="drawer">
-    <ul>
-      <li><a href="about.html">About</a></li>
-      <li><a href="experience.html">Experience</a></li>
-      <li><a href="skills.html">Skills</a></li>
-      <li><a href="projects.html">Projects</a></li>
-      <li><a href="certifications.html">Certs</a></li>
-    </ul>
-    <a href="contact.html" class="drawer-cta">Contact</a>
-  </div>
-
-  <div class="page">
-
-    <!-- LEFT -->
-    <div class="home-left">
-      <div class="home-left-bg"></div>
-      <p class="home-eyebrow">Engineer at Microsoft · Seattle, WA</p>
-      <h1 class="home-name">Amin<em>Pashna</em></h1>
-      <p class="home-tagline">Database engineer and cloud specialist building scalable, mission-critical data systems that power the world's largest platforms.</p>
-      <div class="home-cta">
-        <a href="experience.html" class="btn btn-primary">View Experience</a>
-        <a href="contact.html" class="btn btn-outline">Get in Touch</a>
-      </div>
-    </div>
-
-    <!-- RIGHT -->
-    <div class="home-right">
-      <a href="experience.html" class="home-card">
-        <span class="home-card-label">Current Role</span>
-        <div class="home-card-title">Engineer at Microsoft</div>
-        <span class="home-card-sub">Apr 2021 — Present · Seattle, WA · Full-time</span>
-      </a>
-      <a href="projects.html" class="home-card">
-        <span class="home-card-label">Side Project</span>
-        <div class="home-card-title">SQL Toolkit</div>
-        <span class="home-card-sub">AI-powered · Explain · Optimize · Convert dialects</span>
-      </a>
-      <a href="certifications.html" class="home-card">
-        <span class="home-card-label">Credentials</span>
-        <div class="home-card-title">34 Certifications</div>
-        <span class="home-card-sub">Microsoft · Azure AI · LinkedIn Learning</span>
-      </a>
-    </div>
-
-    <!-- BOTTOM STATS BAR -->
-    <div class="home-bottom">
-      <div class="home-stat"><div class="home-stat-num">14<em>+</em></div><div class="home-stat-label">Years experience</div></div>
-      <div class="home-stat"><div class="home-stat-num"><em>0</em></div><div class="home-stat-label">Critical outages</div></div>
-      <div class="home-stat"><div class="home-stat-num">34</div><div class="home-stat-label">Certifications</div></div>
-      <div class="home-stat"><div class="home-stat-num">9<em>+</em></div><div class="home-stat-label">SQL Server versions</div></div>
-      <div class="home-stat"><div class="home-stat-num">3</div><div class="home-stat-label">Companies served</div></div>
-      <div class="home-stat"><div class="home-stat-num">24<em>/7</em></div><div class="home-stat-label">Availability</div></div>
-      <div class="home-stat"><div class="home-stat-num">15<em>+</em></div><div class="home-stat-label">Technologies</div></div>
-      <div class="home-stat"><div class="home-stat-num"><em>Top</em>1<em>%</em></div><div class="home-stat-label">SQL expertise</div></div>
-    </div>
-
-  </div>
-
-  <script>
-    const nav = document.getElementById('nav');
-
-    // Mobile nav
-    const burger = document.getElementById('burger');
-    const drawer = document.getElementById('drawer');
-    if (burger && drawer) {
-      burger.addEventListener('click', () => {
-        const isOpen = drawer.classList.toggle('open');
-        burger.classList.toggle('open', isOpen);
-        document.body.style.overflow = isOpen ? 'hidden' : '';
-      });
-      drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-        drawer.classList.remove('open');
-        burger.classList.remove('open');
-        document.body.style.overflow = '';
-      }));
-      document.addEventListener('click', (e) => {
-        if (drawer.classList.contains('open') && !drawer.contains(e.target) && !burger.contains(e.target)) {
-          drawer.classList.remove('open');
-          burger.classList.remove('open');
-          document.body.style.overflow = '';
-        }
-      });
-    }
-  </script>
+<nav id="nav">
+<a href="index.html" class="nav-logo">Amin <span>Pashna</span></a>
+<ul class="nav-links">
+<li><a href="about.html">About</a></li>
+<li><a href="experience.html">Experience</a></li>
+<li><a href="skills.html">Skills</a></li>
+<li><a href="projects.html">Projects</a></li>
+<li><a href="certifications.html">Certs</a></li>
+<li><a href="contact.html" class="nav-cta">Contact</a></li>
+</ul>
+</nav>
+<button class="nav-burger" id="burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+<div class="nav-drawer" id="drawer">
+<ul>
+<li><a href="about.html">About</a></li>
+<li><a href="experience.html">Experience</a></li>
+<li><a href="skills.html">Skills</a></li>
+<li><a href="projects.html">Projects</a></li>
+<li><a href="certifications.html">Certs</a></li>
+</ul>
+<a href="contact.html" class="drawer-cta">Contact</a>
+</div>
+<div class="page">
+<!-- LEFT -->
+<div class="home-left">
+<div class="home-left-bg"></div>
+<p class="home-eyebrow">Engineer at Microsoft · Seattle, WA</p>
+<h1 class="home-name">Amin<em>Pashna</em></h1>
+<p class="home-tagline">Database engineer and cloud specialist building scalable, mission-critical data systems that power the world's largest platforms.</p>
+<div class="home-cta">
+<a href="experience.html" class="btn btn-primary">View Experience</a>
+<a href="contact.html" class="btn btn-outline">Get in Touch</a>
+</div>
+</div>
+<!-- RIGHT -->
+<div class="home-right">
+<a href="experience.html" class="home-card">
+<span class="home-card-label">Current Role</span>
+<div class="home-card-title">Engineer at Microsoft</div>
+<span class="home-card-sub">Apr 2021 — Present · Seattle, WA · Full-time</span>
+</a>
+<a href="projects.html" class="home-card">
+<span class="home-card-label">Side Project</span>
+<div class="home-card-title">SQL Toolkit</div>
+<span class="home-card-sub">AI-powered · Explain · Optimize · Convert dialects</span>
+</a>
+<a href="certifications.html" class="home-card">
+<span class="home-card-label">Credentials</span>
+<div class="home-card-title">34 Certifications</div>
+<span class="home-card-sub">Microsoft · Azure AI · LinkedIn Learning</span>
+</a>
+</div>
+<!-- BOTTOM STATS BAR -->
+<div class="home-bottom">
+<div class="home-stat"><div class="home-stat-num">14<em>+</em></div><div class="home-stat-label">Years experience</div></div>
+<div class="home-stat"><div class="home-stat-num"><em>0</em></div><div class="home-stat-label">Critical outages</div></div>
+<div class="home-stat"><div class="home-stat-num">34</div><div class="home-stat-label">Certifications</div></div>
+<div class="home-stat"><div class="home-stat-num">9<em>+</em></div><div class="home-stat-label">SQL Server versions</div></div>
+<div class="home-stat"><div class="home-stat-num">3</div><div class="home-stat-label">Companies served</div></div>
+<div class="home-stat"><div class="home-stat-num">24<em>/7</em></div><div class="home-stat-label">Availability</div></div>
+<div class="home-stat"><div class="home-stat-num">15<em>+</em></div><div class="home-stat-label">Technologies</div></div>
+<div class="home-stat"><div class="home-stat-num"><em>Top</em>1<em>%</em></div><div class="home-stat-label">SQL expertise</div></div>
+</div>
+</div>
+<script>
+const nav = document.getElementById('nav');
+// Mobile nav
+const burger = document.getElementById('burger');
+const drawer = document.getElementById('drawer');
+if (burger && drawer) {
+burger.addEventListener('click', () => {
+const isOpen = drawer.classList.toggle('open');
+burger.classList.toggle('open', isOpen);
+document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+drawer.classList.remove('open');
+burger.classList.remove('open');
+document.body.style.overflow = '';
+}));
+document.addEventListener('click', (e) => {
+if (drawer.classList.contains('open') && !drawer.contains(e.target) && !burger.contains(e.target)) {
+drawer.classList.remove('open');
+burger.classList.remove('open');
+document.body.style.overflow = '';
+}
+});
+}
+</script>
 </body>
 </html>
