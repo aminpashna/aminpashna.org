@@ -314,7 +314,13 @@ if (response.ok) {
 successBox.classList.add('visible');
 document.getElementById('contact-form').reset();
 text.textContent = 'Sent!';
-// Leave button disabled to prevent double-submits.
+btn.classList.remove('loading');
+// Re-enable after a short delay so users can submit again if they need to,
+// but the success message stays visible.
+setTimeout(() => {
+btn.disabled = false;
+text.textContent = 'Send Message';
+}, 3000);
 } else {
 failureBox.classList.add('visible');
 text.textContent = 'Send Message';
