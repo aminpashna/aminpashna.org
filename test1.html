@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadi Shahbazi — Procurement Professional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdfbf7;
+    --bg-warm: #f6f1e8;
+    --bg-soft: #faf6ee;
+    --cream: #fff9ec;
+    --ink: #2a2520;
+    --ink-soft: #4a4239;
+    --muted: #8a7f72;
+    --line: #ebe3d3;
+    --line-soft: #f0e9da;
+    --accent: #c2724a;
+    --accent-soft: #e8c5a8;
+    --accent-deep: #9c5733;
+    --sage: #8ea88a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  a {
+    color: var(--accent-deep);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  a:hover { color: var(--accent); }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(253, 251, 247, 0.9);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+    padding: 1.5rem 0;
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-brand {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.875rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* HERO */
+  .hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem 6rem;
+    position: relative;
+  }
+  .hero-greeting {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--accent-deep);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-greeting::before {
+    content: '';
+    width: 36px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-size: clamp(2.75rem, 7vw, 5.5rem);
+    line-height: 1.05;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    max-width: 900px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent-deep);
+    font-weight: 400;
+  }
+  .hero-sub {
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+  }
+
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 0.6rem 1.2rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .hero-pill-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--sage);
+  }
+
+  /* Decorative element */
+  .hero-deco {
+    position: absolute;
+    top: 5rem;
+    right: 2.5rem;
+    width: 200px;
+    height: 200px;
+    border: 1px solid var(--accent-soft);
+    border-radius: 50%;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .hero-deco::after {
+    content: '';
+    position: absolute;
+    inset: 30px;
+    border: 1px solid var(--accent-soft);
+    border-radius: 50%;
+  }
+
+  /* SECTION */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem;
+  }
+  .section-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--accent-deep);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .section-title {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    line-height: 1.05;
+    margin-bottom: 4rem;
+    max-width: 700px;
+    font-weight: 300;
+  }
+  .section-title em { font-style: italic; color: var(--accent-deep); }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1.125rem;
+    color: var(--ink-soft);
+    margin-bottom: 1.5rem;
+    line-height: 1.75;
+  }
+  .about-text p:first-child {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-bottom: 2rem;
+  }
+  .about-card {
+    background: var(--bg-warm);
+    padding: 2.5rem;
+    border-radius: 24px;
+  }
+  .about-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1.75rem;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .about-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .about-stat-row:last-child { border-bottom: none; }
+  .about-stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 2.25rem;
+    color: var(--accent-deep);
+    font-weight: 400;
+    line-height: 1;
+  }
+  .about-stat-label {
+    font-size: 0.875rem;
+    color: var(--muted);
+    max-width: 140px;
+    text-align: right;
+    line-height: 1.4;
+  }
+
+  /* EXPERIENCE */
+  .exp-section {
+    background: var(--bg-soft);
+    max-width: none;
+    margin: 0;
+    padding: 6rem 2.5rem;
+  }
+  .exp-inner { max-width: 1100px; margin: 0 auto; }
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 3rem;
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--line);
+    transition: padding 0.3s;
+  }
+  .exp-item:first-child { border-top: 1px solid var(--line); }
+  .exp-period-wrap { padding-top: 0.5rem; }
+  .exp-period {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--accent-deep);
+  }
+  .exp-duration {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .exp-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.65rem;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+    font-weight: 400;
+  }
+  .exp-company {
+    font-size: 1rem;
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .exp-location {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    font-style: italic;
+  }
+  .exp-desc {
+    font-size: 0.975rem;
+    color: var(--ink-soft);
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
+  }
+  .exp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .exp-tag {
+    font-size: 0.78rem;
+    background: var(--cream);
+    color: var(--accent-deep);
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    font-weight: 500;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  .project {
+    background: var(--cream);
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid var(--line-soft);
+    transition: all 0.3s;
+    position: relative;
+  }
+  .project:hover {
+    background: var(--bg-warm);
+    transform: translateY(-3px);
+    border-color: var(--accent-soft);
+  }
+  .project-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg-warm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: var(--accent-deep);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.2rem;
+  }
+  .project:hover .project-icon {
+    background: var(--accent-soft);
+  }
+  .project-tag {
+    font-size: 0.78rem;
+    color: var(--accent-deep);
+    font-style: italic;
+    font-family: 'Fraunces', serif;
+    margin-bottom: 0.75rem;
+  }
+  .project h3 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    font-weight: 400;
+  }
+  .project p {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* CREDENTIALS */
+  .cred-section {
+    background: var(--bg-warm);
+    max-width: none;
+    margin: 0;
+    padding: 6rem 2.5rem;
+  }
+  .cred-inner { max-width: 1100px; margin: 0 auto; }
+  .cred-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  .cred-card {
+    background: var(--bg);
+    padding: 2.5rem;
+    border-radius: 20px;
+  }
+  .cred-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1.75rem;
+    font-style: italic;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .cred-card h3::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .cred-card ul { list-style: none; }
+  .cred-card li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .cred-card li:last-child { border-bottom: none; }
+  .cred-card .meta {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .cred-card strong { color: var(--ink); font-weight: 500; }
+
+  /* CONTACT */
+  .contact-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 2.5rem;
+  }
+  .contact-card {
+    background: linear-gradient(135deg, var(--bg-warm) 0%, var(--cream) 100%);
+    border-radius: 28px;
+    padding: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid var(--accent-soft);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  .contact-card::after {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid var(--accent-soft);
+    border-radius: 50%;
+    opacity: 0.3;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    position: relative;
+    z-index: 1;
+  }
+  .contact-left h2 {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+  .contact-left h2 em { font-style: italic; color: var(--accent-deep); }
+  .contact-intro {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+  .contact-info { display: grid; gap: 1rem; }
+  .contact-row {
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s;
+  }
+  .contact-row:hover { transform: translateX(4px); }
+  .contact-row-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-warm);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-deep);
+    flex-shrink: 0;
+    font-size: 1.1rem;
+  }
+  .contact-row .label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+  .contact-row a {
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  .contact-row a:hover { color: var(--accent-deep); }
+
+  form { display: flex; flex-direction: column; gap: 1.25rem; position: relative; z-index: 1; }
+  label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+  input, textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 0.9rem 1.1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    outline: none;
+    transition: all 0.2s;
+    border-radius: 12px;
+  }
+  input:focus, textarea:focus { border-color: var(--accent); background: var(--cream); }
+  textarea { resize: vertical; min-height: 110px; }
+  button[type="submit"] {
+    background: var(--accent-deep);
+    color: var(--bg);
+    border: none;
+    padding: 1.05rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: all 0.2s;
+    margin-top: 0.75rem;
+    align-self: flex-start;
+  }
+  button[type="submit"]:hover { background: var(--accent); transform: translateY(-1px); }
+
+  footer {
+    padding: 2.5rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.875rem;
+    border-top: 1px solid var(--line);
+    margin-top: 2rem;
+  }
+  footer em { font-family: 'Fraunces', serif; }
+
+  @media (max-width: 800px) {
+    .nav-links { display: none; }
+    .hero { padding: 3rem 1.5rem 4rem; }
+    .hero-deco { display: none; }
+    section, .exp-section, .cred-section, .contact-section { padding: 4rem 1.5rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; padding: 2rem 0; }
+    .projects-grid, .cred-grid { grid-template-columns: 1fr; }
+    .contact-card { padding: 2.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">Shadi Shahbazi</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#credentials">Credentials</a></li>
+      <li><a href="#contact">Say Hello</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-deco"></div>
+  <div class="hero-greeting">Hello, I'm Shadi</div>
+  <h1>Bringing care and <em>precision</em> to procurement, one project at a time.</h1>
+  <p class="hero-sub">A senior procurement professional with fifteen years of experience leading project procurement and supply chain operations across the oil &amp; gas industry.</p>
+  <div class="hero-pill">
+    <span class="hero-pill-dot"></span>
+    Currently open to new opportunities
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-title">A career grounded in <em>collaboration</em> and quiet diligence.</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>For over fifteen years, I've worked at the intersection of engineering, supply chain, and operations — leading procurement teams and managing vendor relationships across some of the most demanding projects in the oil &amp; gas industry.</p>
+      <p>My approach is methodical and people-first. Procurement isn't only about prices and purchase orders — it's about building lasting relationships with suppliers, coordinating across departments with clarity, and ensuring every project has what it needs to move forward smoothly.</p>
+      <p>I'm currently Head of Procurement Services at OICO, and exploring opportunities where I can bring this experience to a team that values careful, collaborative work.</p>
+    </div>
+    <div class="about-card">
+      <h3>At a glance</h3>
+      <div class="about-stat-row">
+        <div class="about-stat-num">15+</div>
+        <div class="about-stat-label">Years in procurement</div>
+      </div>
+      <div class="about-stat-row">
+        <div class="about-stat-num">5</div>
+        <div class="about-stat-label">Industry employers</div>
+      </div>
+      <div class="about-stat-row">
+        <div class="about-stat-num">10+</div>
+        <div class="about-stat-label">Major projects led</div>
+      </div>
+      <div class="about-stat-row">
+        <div class="about-stat-num">2</div>
+        <div class="about-stat-label">Languages fluent</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="exp-section" id="experience">
+  <div class="exp-inner">
+    <div class="section-label">Experience</div>
+    <h2 class="section-title">A fifteen-year journey through <em>procurement leadership.</em></h2>
+    <div class="exp-list">
+
+      <div class="exp-item">
+        <div class="exp-period-wrap">
+          <div class="exp-period">2022 — Present</div>
+          <div class="exp-duration">Current Role</div>
+        </div>
+        <div>
+          <div class="exp-title">Head of Procurement Services</div>
+          <div class="exp-company">Oil Industries' Commissioning and Operation Company (OICO)</div>
+          <div class="exp-location">Tehran, Iran</div>
+          <p class="exp-desc">Leading the complete procurement cycle for major commissioning and operations projects. I manage RFQs, bid evaluations, vendor selection, expediting, and audit documentation — while coordinating closely with engineering, planning, and logistics teams to keep projects moving smoothly.</p>
+          <div class="exp-tags">
+            <span class="exp-tag">West Ethylene Pipeline</span>
+            <span class="exp-tag">NGL 3100</span>
+            <span class="exp-tag">Persian Gulf Star</span>
+            <span class="exp-tag">SPGC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period-wrap">
+          <div class="exp-period">2021 — 2022</div>
+          <div class="exp-duration">7 months</div>
+        </div>
+        <div>
+          <div class="exp-title">Procurement In-Charge</div>
+          <div class="exp-company">Hydropars Industrial Group</div>
+          <div class="exp-location">Tehran, Iran</div>
+          <p class="exp-desc">Managed end-to-end procurement for a manufacturer of poly-electrolyte packages, mixers, and chemical injection systems. Coordinated Pre-Inspection Meetings, Final Inspections, and ensured every project had complete Final Book documentation.</p>
+          <div class="exp-tags">
+            <span class="exp-tag">Assaluyeh Condensate Storage</span>
+            <span class="exp-tag">PEDEC South Yaran</span>
+            <span class="exp-tag">South Azadegan</span>
+            <span class="exp-tag">Shiraz Water Treatment</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period-wrap">
+          <div class="exp-period">2018 — 2021</div>
+          <div class="exp-duration">3 years · Remote</div>
+        </div>
+        <div>
+          <div class="exp-title">I&amp;C SBU Sourcing In-Charge</div>
+          <div class="exp-company">Great Pyramid LLC</div>
+          <div class="exp-location">Muscat, Oman (Remote)</div>
+          <p class="exp-desc">Conducted market research for new suppliers and technologies, maintained the Approved Vendor List, and led supplier prequalification on technical capability, quality systems, and financial stability. Coordinated audits with QA/QC teams.</p>
+          <div class="exp-tags">
+            <span class="exp-tag">Valves &amp; Instrumentation</span>
+            <span class="exp-tag">Control Systems</span>
+            <span class="exp-tag">Supplier Audits</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period-wrap">
+          <div class="exp-period">2012 — 2017</div>
+          <div class="exp-duration">4 years</div>
+        </div>
+        <div>
+          <div class="exp-title">Purchase Specialist</div>
+          <div class="exp-company">Arya Instrument Co.</div>
+          <div class="exp-location">Tehran, Iran</div>
+          <p class="exp-desc">Supported RFQ issuance, vendor coordination, and Purchase Order management at a full instrumentation services provider operating per Endress+Hauser standards. Tracked payments, vendor invoices, and Final Book documentation.</p>
+          <div class="exp-tags">
+            <span class="exp-tag">Endress+Hauser standards</span>
+            <span class="exp-tag">Instrumentation</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period-wrap">
+          <div class="exp-period">2010 — 2012</div>
+          <div class="exp-duration">18 months</div>
+        </div>
+        <div>
+          <div class="exp-title">Project Procurement Expert</div>
+          <div class="exp-company">Persia Energy Development</div>
+          <div class="exp-location">Tehran, Iran</div>
+          <p class="exp-desc">Prepared and issued Invitation to Bid and RFQ packages — technical, commercial, and contractual documents — for a wellhead and downhole completion manufacturer. Organized Bid Opening Meetings.</p>
+          <div class="exp-tags">
+            <span class="exp-tag">Wellhead Components</span>
+            <span class="exp-tag">Downhole Completion</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-label">Selected Projects</div>
+  <h2 class="section-title">Engagements across <em>energy infrastructure.</em></h2>
+  <div class="projects-grid">
+
+    <div class="project">
+      <div class="project-icon">01</div>
+      <div class="project-tag">Pipeline · Petrochemicals</div>
+      <h3>West Ethylene Pipeline</h3>
+      <p>Procurement oversight for a major petrochemical pipeline within OICO's commissioning and operations portfolio.</p>
+    </div>
+
+    <div class="project">
+      <div class="project-icon">02</div>
+      <div class="project-tag">Gas Processing</div>
+      <h3>NGL 3100</h3>
+      <p>Procurement services for the NGL 3100 natural gas liquids project, supporting commissioning and operational readiness.</p>
+    </div>
+
+    <div class="project">
+      <div class="project-icon">03</div>
+      <div class="project-tag">Refining</div>
+      <h3>Persian Gulf Star Oil Co.</h3>
+      <p>Procurement coordination for one of the region's largest gas condensate refineries during active commissioning.</p>
+    </div>
+
+    <div class="project">
+      <div class="project-icon">04</div>
+      <div class="project-tag">Oil &amp; Gas Storage</div>
+      <h3>Assaluyeh Condensate Storage</h3>
+      <p>Material requisition, vendor selection, and procurement execution for POGC's condensate storage facility.</p>
+    </div>
+
+    <div class="project">
+      <div class="project-icon">05</div>
+      <div class="project-tag">Oil Field Development</div>
+      <h3>South Yaran &amp; South Azadegan</h3>
+      <p>Chemical injection package procurement for PEDEC and Petro Pars' field development operations.</p>
+    </div>
+
+    <div class="project">
+      <div class="project-icon">06</div>
+      <div class="project-tag">Water Treatment</div>
+      <h3>Shiraz Water Treatment</h3>
+      <p>Procurement of cooling and boiler water treatment systems with full engineering and inspection coordination.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="cred-section" id="credentials">
+  <div class="cred-inner">
+    <div class="section-label">Credentials</div>
+    <h2 class="section-title">Education, certifications, and <em>core expertise.</em></h2>
+    <div class="cred-grid">
+
+      <div class="cred-card">
+        <h3>Education</h3>
+        <ul>
+          <li>
+            <span><strong>Bachelor of Arts, English Translation</strong><br>
+            <span style="font-size: 0.85rem; color: var(--muted);">Azad University, Garmsar Branch</span></span>
+            <span class="meta">2010</span>
+          </li>
+        </ul>
+        <h3 style="margin-top: 2.5rem;">Certifications</h3>
+        <ul>
+          <li><strong>MESC Coding</strong><span class="meta">2023</span></li>
+          <li><strong>Business Emailing &amp; Negotiating</strong><span class="meta">2012</span></li>
+          <li><strong>Commercial Correspondences</strong><span class="meta">2011</span></li>
+          <li><strong>Teaching Training Course</strong><span class="meta">2009</span></li>
+        </ul>
+      </div>
+
+      <div class="cred-card">
+        <h3>Core Expertise</h3>
+        <ul>
+          <li><strong>Procurement Cycle Management</strong></li>
+          <li><strong>Vendor Selection (TBE / CBE)</strong></li>
+          <li><strong>RFQ &amp; Purchase Orders</strong></li>
+          <li><strong>Supplier Prequalification</strong></li>
+          <li><strong>Expediting &amp; Logistics</strong></li>
+          <li><strong>Risk &amp; Audit Documentation</strong></li>
+        </ul>
+        <h3 style="margin-top: 2.5rem;">Languages &amp; Tools</h3>
+        <ul>
+          <li><strong>Persian (Farsi)</strong><span class="meta">Native</span></li>
+          <li><strong>English</strong><span class="meta">Fluent</span></li>
+          <li><strong>Microsoft Office</strong><span class="meta">Expert</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="contact-card">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <div class="section-label">Say Hello</div>
+        <h2>I'd love to <em>hear from you.</em></h2>
+        <p class="contact-intro">Whether you're hiring, collaborating, or just curious to connect — please feel welcome to reach out. I respond to every message personally.</p>
+        <div class="contact-info">
+          <div class="contact-row">
+            <div class="contact-row-icon">✉</div>
+            <div>
+              <span class="label">Email</span>
+              <a href="mailto:shadi.shahbazi67@gmail.com">shadi.shahbazi67@gmail.com</a>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-row-icon">in</div>
+            <div>
+              <span class="label">LinkedIn</span>
+              <a href="https://www.linkedin.com/in/shadi-shahbazi-805ba05b/" target="_blank" rel="noopener">linkedin.com/in/shadi-shahbazi</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form onsubmit="handleSubmit(event)">
+        <div>
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+          <label for="email">Your email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject">
+        </div>
+        <div>
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button type="submit">Send message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Shadi Shahbazi · <em>Made with care</em></p>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const subject = document.getElementById('subject').value || 'Website Inquiry';
+    const message = document.getElementById('message').value;
+    const body = `From: ${name} (${email})%0D%0A%0D%0A${message}`;
+    window.location.href = `mailto:shadi.shahbazi67@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+  }
+</script>
+
+</body>
+</html>
