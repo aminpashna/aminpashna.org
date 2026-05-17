@@ -1,4 +1,4 @@
-# robots.txt for aminpashna.org
+# robots.txt for aminpashna.com
 # Allow all standard search crawlers and major AI/LLM crawlers
 
 User-agent: *
@@ -56,4 +56,4 @@ Allow: /
 User-agent: FacebookBot
 Allow: /
 
-Sitemap: https://aminpashna.org/sitemap.xml
+Sitemap: https://aminpashna.com/sitemap.xml
