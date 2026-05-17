@@ -26,7 +26,8 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { overflow-x: hidden; }
   ::selection { background: var(--rose); color: var(--bg); }
 
   body {
@@ -792,18 +793,167 @@
     font-size: 0.95rem;
   }
 
-  @media (max-width: 900px) {
-    .nav-links { display: none; }
-    .nav-inner { padding: 0 1.5rem; }
-    .hero { padding: 4rem 1.5rem; }
+  /* Mobile menu toggle - hidden by default */
+  .nav-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--line);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0;
+    transition: border-color 0.3s;
+  }
+  .nav-toggle:hover { border-color: var(--accent); }
+  .nav-toggle span {
+    display: block;
+    width: 16px;
+    height: 1px;
+    background: var(--ink);
+    transition: all 0.3s;
+  }
+  .nav-toggle.active span:nth-child(1) { transform: translateY(2.5px) rotate(45deg); }
+  .nav-toggle.active span:nth-child(2) { transform: translateY(-2.5px) rotate(-45deg); }
+
+  /* ====================================================
+     TABLET (768px - 1024px)
+     ==================================================== */
+  @media (max-width: 1024px) {
+    .nav-inner { padding: 0 2rem; }
+    .nav-links { gap: 1.75rem; }
+    .nav-links a { font-size: 0.72rem; letter-spacing: 0.18em; }
+
+    .hero { padding: 5rem 2rem 5rem; }
+    .hero-frame { width: 220px; height: 220px; top: 5rem; }
+
+    section { padding: 5rem 2rem; }
+    .exp-section, .cred-section, .contact-section { padding: 5rem 2rem; }
+
+    .about-grid { gap: 3rem; }
+    .about-card { padding: 2.5rem 2rem; }
+
+    .exp-item { padding: 2.5rem; }
+    .exp-header { gap: 1.5rem; }
+
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .contact-grid { padding: 3rem; gap: 3rem; }
+  }
+
+  /* ====================================================
+     MOBILE (up to 768px)
+     ==================================================== */
+  @media (max-width: 768px) {
+    body { font-size: 15px; }
+
+    /* NAV with hamburger menu */
+    nav { padding: 1.25rem 0; }
+    .nav-inner { padding: 0 1.25rem; }
+    .nav-brand { font-size: 1.1rem; letter-spacing: 0.12em; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg);
+      flex-direction: column;
+      gap: 0;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--line-soft);
+      box-shadow: 0 10px 30px rgba(176, 137, 104, 0.08);
+    }
+    .nav-links.active { display: flex; }
+    .nav-links li {
+      width: 100%;
+      text-align: center;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav-links li:last-child { border-bottom: none; }
+    .nav-links a { font-size: 0.8rem; }
+
+    /* HERO */
+    .hero { padding: 3.5rem 1.25rem 3.5rem; }
     .hero-frame { display: none; }
-    section, .exp-section, .cred-section, .contact-section { padding: 4rem 1.5rem; }
-    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; padding: 2.5rem 1.5rem; }
-    .contact-grid { padding: 2.5rem 1.5rem; }
-    .exp-item { padding: 2rem; }
-    .exp-header { grid-template-columns: 1fr; gap: 1rem; }
-    .exp-period { text-align: left; }
-    .projects-grid, .cred-grid { grid-template-columns: 1fr; }
+    .hero-ornament { font-size: 1.1rem; letter-spacing: 0.3em; margin-bottom: 1rem; }
+    .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.22em; margin-bottom: 1.5rem; }
+    .hero h1 { font-size: clamp(2.5rem, 11vw, 3.5rem); }
+    .hero h1 .sub { font-size: 0.45em; margin-top: 0.75rem; }
+    .hero-divider { margin: 2rem auto; width: 60px; }
+    .hero-tagline { font-size: 1.1rem; padding: 0 0.5rem; }
+    .hero-status { font-size: 0.7rem; padding: 0.55rem 1.25rem; margin-top: 2rem; }
+
+    /* SECTIONS */
+    section, .exp-section, .cred-section, .contact-section { padding: 4rem 1.25rem; }
+    .section-title { font-size: clamp(2rem, 7vw, 2.5rem); }
+    .section-sub { font-size: 1.05rem; margin-bottom: 3rem; padding: 0 0.5rem; }
+
+    /* ABOUT */
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-card { padding: 2.5rem 1.75rem; }
+    .about-monogram { font-size: 4rem; }
+    .about-body p { font-size: 1rem; line-height: 1.8; }
+    .about-body p:first-child { font-size: 1.2rem; }
+    .about-body p:first-child::first-letter { font-size: 3rem; }
+
+    /* EXPERIENCE */
+    .exp-list { max-width: 100%; }
+    .exp-item { padding: 1.75rem 1.5rem; }
+    .exp-header { grid-template-columns: 1fr; gap: 0.75rem; }
+    .exp-title { font-size: 1.55rem; }
+    .exp-company { font-size: 1rem; }
+    .exp-period { text-align: left; padding-top: 0; }
+    .exp-period-main { font-size: 0.95rem; }
+    .exp-desc { font-size: 0.95rem; }
+    .exp-tag { font-size: 0.68rem; padding: 0.3rem 0.75rem; }
+
+    /* PROJECTS */
+    .projects-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .project { padding: 2rem 1.75rem; }
+    .project h3 { font-size: 1.4rem; }
+
+    /* CREDENTIALS */
+    .cred-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .cred-card { padding: 2.5rem 1.75rem; }
+    .cred-card h3 { font-size: 1.35rem; }
+
+    /* CONTACT */
+    .contact-section { padding: 5rem 1.25rem 4rem; }
+    .contact-title { font-size: clamp(2.5rem, 11vw, 3.5rem); }
+    .contact-intro { font-size: 1.1rem; margin-bottom: 3rem; padding: 0 0.5rem; }
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding: 2.5rem 1.5rem;
+    }
+    .contact-info h3 { font-size: 1.05rem; }
+    .contact-info-row a { font-size: 1rem; word-break: break-word; }
+    button[type="submit"] { width: 100%; text-align: center; padding: 1rem; }
+
+    /* FOOTER */
+    footer { padding: 3rem 1.25rem 2.5rem; }
+    .footer-ornament { font-size: 1.2rem; letter-spacing: 0.3em; }
+    .footer-name { font-size: 1.2rem; letter-spacing: 0.12em; }
+  }
+
+  /* ====================================================
+     SMALL MOBILE (up to 400px)
+     ==================================================== */
+  @media (max-width: 400px) {
+    .hero h1 { font-size: 2.2rem; }
+    .hero-tagline { font-size: 1rem; }
+    .section-title { font-size: 1.85rem; }
+    .contact-title { font-size: 2.2rem; }
+    .exp-title { font-size: 1.4rem; }
+    .about-monogram { font-size: 3.5rem; }
+    .contact-info-row a { font-size: 0.9rem; }
   }
 </style>
 </head>
@@ -812,7 +962,11 @@
 <nav>
   <div class="nav-inner">
     <div class="nav-brand">SHADI SHAHBAZI</div>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
@@ -1176,6 +1330,23 @@
 </footer>
 
 <script>
+  // Mobile menu toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+    // Close menu when a link is clicked
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
